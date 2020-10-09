@@ -1,2 +1,48 @@
-not yet.
+<!DOCTYPE html>
+<html><head><title>ordex: Ordinal Expander in JavaScript</title>
+<meta http-equiv="Content-type" content="text/html; charset=utf8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<style><!--
+  body{font-family:Segoe UI}
+  a{color:black;border-style:none;text-decoration:underline}
+  a:link{color:#0000FF;border-style:none;text-decoration:underline}
+  a:visited{color:#0000FF;border-style:none;text-decoration:underline}
+  a:hover{color:#FF00FF;border-color:none;text-decoration:underline}
+  address{text-align:right;font-style:normal}
+  .myinput{border-style:solid;border-color:black;border-width:1px;background-color:white;color:black;font-family:ＭＳ ゴシック;font-size:10pt;padding:2px}
+  .tdbutton{border-width:1px;border-style:solid;border-color:white;height:30px;width:30px}
+  hr{border-style:solid}
+  .console{font-family:MS Gothic;color:white;background-color:black}
+--></style></head>
+<h1>ordex: Ordinal Expander in JapaScript</h1>
+<form id='form'>
+data:<br>
+<textarea id='intext' rows=10 style="width:95%" class='myinput'>
+</textarea><br>
+ex. (X1,X2,X3)[n] for psi_{X1}(X2,X3)[n]<br>
+↓<br>
+<input type=button id=draw value='draw(under construction)' onclick='javscript:dothemall();'><br>
+↓<br>
+<textarea id='outtext' rows=10 style="width:95%" class='myinput'>
+</textarea><br>
+<img id='outimg' style='border-style:solid;border-width:1px'>
+<canvas id='outcanvas' style='display:none'></canvas><br>
+<textarea id='debug' rows=50 cols=50 class='myinput' style='display:none'>
+test
+</textarea>
+</form>
+<address>
+<u>ordex: Ordinal Expander in Javascript</u><br>
+Original Kuma kuma 3-ary Psi (<a href="https://googology.wikia.org/wiki/User_blog:Kanrokoti/3_variables_%CF%88_which_is_larger_than_EBOCF">Kuma kuma 3-variables Psi</a> was invented by Kanrokoti(<a href="https://googology.wikia.org/wiki/User:Kanrokoti">en</a>/<a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC:Kanrokoti">ja</a>)<br>
+programmed by <a href="https://twitter.com/koteitan">koteitan</a><br>
+Source code is on <a href="https://github.com/koteitan/ordex/">github</a><br>
+</address>
+<body onload='javascript:dothemall();'>
+</body>
+<script type="text/javascript" src="./bms.js"></script>
+<script type="text/javascript" src="./exarray.js"></script>
+<script type="text/javascript" src="./matrix.js"></script>
+<script type="text/javascript" src="./test.js"></script>
+</html>
+
 
