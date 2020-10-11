@@ -1,5 +1,5 @@
 window.onload=function(){ //entry point
-  intext.value="(0,0,0)[3]";  
+  intext.value="(0,0,(0,0,0))[1][2]";  
 };
 var dothemall=function(){ //button
   var str=intext.value;
