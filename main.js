@@ -1,6 +1,6 @@
 window.onload=function(){ //entry point
-  intext.value="(0,0,0)(1,1,1)[3]";  
-}
+  intext.value="(0,0,0)[3]";  
+};
 var dothemall=function(){ //button
   var str=intext.value;
   //trimming \n
@@ -8,8 +8,8 @@ var dothemall=function(){ //button
   str=str.replace(/\n*$/g, "");
   str=str.replace(/\n+/g, "\n");
   //parse
-  var bms=Bms.parse(str);
+  var o=new Kuma3ary(str);
   //test
-  outtext.value = bms.expand().toString();
+  outtext.value = o.toString();
 };
 

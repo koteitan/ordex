@@ -1,7 +1,8 @@
 // kuma kuma 3-ary Psi
-Kuma3ary = function(){
+Kuma3ary = function(str){
+  Ordinal.parse(this, str, "recursive paren");
 };
 
-Kuma3ary.parse = function(str){
-  return Ordinal.parse_md_paren_bracket(new Kuma3ary(), str);
+Kuma3ary.prototype.toString = function(){
+  return Ordinal.toString(this, "recursive paren");
 }

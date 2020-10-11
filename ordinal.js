@@ -1,24 +1,37 @@
 /* ordinal abstruct object. */
 Ordinal = function(){};
 
-/* parse text as Multi-Dimensional parenthesis and bracket 
+/* parse text as recursive parenthesis
  * and output into the fields of o.
- * o.m = memory
- * o.b[i] = bracket list */
-Ordinal.parse_md_paren_bracket = function(o, text){
-  //parse memory
-  //              1  2   3   4
-  var r = /\(?[\s\d,()]*\)?/;
-  var matched=text.match(r);
-  if(matched!=null){
-    matched=matched[0].replaceAll("\(","[");
-    matched=matched.replaceAll("\)","]");
-    o.m=JSON.parse(matched);
-    while(o.m.length==1) o.m=o.m[0]; //defrate no-width dimension
+ * o.e[i] = i th element = Ordinal or integer
+ * o.b[i] = i th bracket = integer */
+Ordinal.parse = function(o, text, type){
+  //parse element
+  switch(type){
+    case "recursive paren":
+      var matched=text.match(/(\()(.*)(\))/);
+      if(matched!=null){
+        var elemlist = matched[2].split(",");
+        o.s = new Array(elemlist.length);
+        for(i=0;i<elemlist.length;i++){
+          var e = elemlist[i];
+          if(e.match(/(\()(.*)(\))/) != null){ // recparen
+            o.s[i] = new Ordinal();
+            Ordinal.parse(o.s[pi], e, type);
+          }else if(e.match(/\d*/) != null){ //digit
+            o.s[i] = parseInt(e);
+          }
+        }
+      }else{//error
+        return o;
+      }
+    break;
+    default:
+    break;
   }
 
   //parse brackets
-  var r = /((\[[\s\d]*\])|\s)+/;
+  var r = /((\[[\\d]*\])|\s)+/;
   var matched=text.match(r);
   if(matched!=null){
     o.b = JSON.parse(matched[0].replace(/\]\s*\[/g,","));
@@ -27,14 +40,22 @@ Ordinal.parse_md_paren_bracket = function(o, text){
   }
   return o;
 }
-Ordinal.toString_md_paren_bracket = function(o){
-  var str="";
-  for(var x=0;x<o.length;x++){
-    str+="(";
-    for(var y=0;y<o[x].length;y++){
-      str+=o[x][y];
-      if(y<o[x].length-1) str+=",";
-    }
+Ordinal.toString = function(o, type){
+  switch(type){
+    case "recursive paren":
+      var str="(";
+      for(var i=0;i<o.length;i++){
+        var e=o.s[i];
+        if(e.constructor==Ordinal){
+          str+=e.toString();
+        }else if(Number.isFinite(e)){
+          str+=e;
+        }
+        if(i<=o.length)str+=",";
+      }
+      return str+")";
+    break;
+    default:
+    break;
   }
-  return str;
 }
