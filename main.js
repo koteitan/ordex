@@ -8,7 +8,9 @@ var dothemall=function(){ //button
   str=str.replace(/\n*$/g, "");
   str=str.replace(/\n+/g, "\n");
   //parse
-  var o=new Kuma3ary(str);
+  var o=new Kuma3ary();
+  o.t="0";
+  console.log(o.toString());
   //test
   outtext.value = o.toString();
 };
