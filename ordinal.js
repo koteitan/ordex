@@ -26,7 +26,7 @@ Ordinal = function(){
 Ordinal.add = function(a,b,o){
   
   if(o==null){
-    o==new a.constructor();
+    o=new a.constructor();
     o.p=null;
     o.t="+";
   }
@@ -113,9 +113,18 @@ Ordinal.prototype.addleft=function(a){
 Ordinal.cat = function(a,b,o){
   
   if(o==null){
-    o==new a.constructor();
+    if(a instanceof Array){
+      if(a.length>0 && a[0] instanceof Ordinal){
+        o=new a[0].constructor();
+      }else{
+        throw new Error("a[0] is not instance of Ordinal");
+        return null;
+      }
+    }else{
+      o=new a.constructor();
+    }
     o.p=null;
-    o.t="+";
+    o.t=",";
   }
   
   if((typeof a) !="undefined"){
