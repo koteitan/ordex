@@ -5,11 +5,11 @@
   ex. new Kuma3ary("w"); // means w  
  */
 Kuma3ary = function(_in){
-  Ordinal.call(this);
-  if(typeof(_in)==='undefined'||_in==0){
+  Ordinal.call(this,_in);
+  if(typeof(_in)==='undefined'||parseInt(_in)){
     //nop
   }else if(isFinite(_in)){
-    if(_in==1){
+    if(parseInt(_in)==1){
       this.t=',';
       this.a=[new Kuma3ary(),new Kuma3ary(),new Kuma3ary()];
       this.p=null;
@@ -22,6 +22,14 @@ Kuma3ary = function(_in){
   }else if(_in=="w"){
     this.t=",";
     this.a=[new Kuma3ary(0), new Kuma3ary(0), new Kuma3ary(1)];
+    this.p=null;
+  }else if(_in=="+"){
+    this.t="+";
+    this.a=[];
+    this.p=null;
+  }else if(_in==","){
+    this.t=",";
+    this.a=[];
     this.p=null;
   }
 }

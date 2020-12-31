@@ -1,4 +1,10 @@
-/* ordinal abstruct object. */
+/* @fn Ordinal()
+ * @brief Ordinal abstruct type.
+ * @details
+ * It requires:
+ *   - definition of Originaltype("0")
+ *   - definition of Originaltype("1")
+ * */
 Ordinal = function(){
   this.t = "0";
   this.a = [];
@@ -199,24 +205,53 @@ Ordinal.prototype.catleft=function(a){
 
 /* parse text as recursive parenthesis */
 Ordinal.prototype.parse = function(text){
-  console.log(this.constructor);
-  var out;
+  text=text.replace(/[\n\s]/g, "");
   
-  var pivot = out;
+  /* depth analysis */
+  var depth=Array(text.length);
+  var now=0;
+  var prevope="";
   for(var i=0;i<text.length;i++){
     var c=text[i];
     switch(c){
-      case "0":
-      pivot = new Ordinal(0);
+      case "(":
+        depth[i]=now;
+        now++;
       break;
-      case "1":
-      pivot = new Ordinal(1);
+      case ")":
+        for(var j=i;j>=0;j--){
+          if(text[j]=="(" && depth[j]<now){
+            depth[i]=depth[j];
+            now=depth[i];
+            break;
+          }
+        }
       break;
-      case "w":
-      pivot = new Kuma3ary("w");
+      case "+":
+        prevope=c;
+        depth[i]=now;
+        now++;
+        var ibegin=text.lastIndexOf("(",i-3);
+        for(var j=ibegin;j<i;j++){
+          depth[j]++;
+        }
+      break;
+      case ",":
+        now--;
+        depth[i]=now;
+        now++;
+      break;
+      default:
+        depth[i]=now;
       break;
     }
   }
+  var depthstr="";
+  for(var i=0;i<text.length;i++){
+    depthstr+=depth[i];
+  }
+  console.log(text);
+  console.log(depthstr);
 }
 Ordinal.prototype.toString = function(){
   var outstr="";
