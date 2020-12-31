@@ -199,6 +199,24 @@ Ordinal.prototype.catleft=function(a){
 
 /* parse text as recursive parenthesis */
 Ordinal.prototype.parse = function(text){
+  console.log(this.constructor);
+  var out;
+  
+  var pivot = out;
+  for(var i=0;i<text.length;i++){
+    var c=text[i];
+    switch(c){
+      case "0":
+      pivot = new Ordinal(0);
+      break;
+      case "1":
+      pivot = new Ordinal(1);
+      break;
+      case "w":
+      pivot = new Kuma3ary("w");
+      break;
+    }
+  }
 }
 Ordinal.prototype.toString = function(){
   var outstr="";

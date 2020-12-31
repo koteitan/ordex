@@ -26,5 +26,7 @@ Kuma3ary = function(_in){
   }
 }
 Kuma3ary.prototype = Object.create(Ordinal.prototype);
+Object.defineProperty(Kuma3ary.prototype, 'constructor', 
+  {value:Kuma3ary, enumerable:false, writable:true});
 Kuma3ary.add = Ordinal.add;
 Kuma3ary.cat = Ordinal.cat;
