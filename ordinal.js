@@ -8,10 +8,7 @@ Ordinal = function(){
 Ordinal.prototype.add = function(added){
   
 }
-/* parse text as recursive parenthesis
- * and output into the fields of o.
- * o.e[i] = i th element = Ordinal or integer
- * o.b[i] = i th bracket = integer */
+/* parse text as recursive parenthesis */
 Ordinal.prototype.parse = function(text){
 }
 Ordinal.prototype.toString = function(){
