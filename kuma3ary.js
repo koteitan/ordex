@@ -27,7 +27,25 @@
     else if type == ",":
      the object will be (p[0],p[1],p[2]).
  */
-Kuma3ary = function(){
+Kuma3ary = function(_in){
   Ordinal.call(this);
+  if(typeof(_in)==='undefined'||_in==0){
+    //nop
+  }else if(isFinite(_in)){
+    if(_in==1){
+      this.t=',';
+      this.a=[new Kuma3ary(),new Kuma3ary(),new Kuma3ary()];
+      this.p=null;
+      this.a[0].p=this;
+      this.a[1].p=this;
+      this.a[2].p=this;
+    }else{
+      //under construction
+    }
+  }else if(_in=="w"){
+    this.t=",";
+    this.a=[new Kuma3ary(0), new Kuma3ary(0), new Kuma3ary(1)];
+    this.p=null;
+  }
 }
 Kuma3ary.prototype = Object.create(Ordinal.prototype);
