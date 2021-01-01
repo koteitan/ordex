@@ -63,7 +63,7 @@ Kuma3ary.parse = Ordinal.parse;
 /* ----------------------------------------------------- end */
 
 
-Kuma3ary.prototype.isone =function(){return Kuma3ary.equal(this,k0);}
+Kuma3ary.prototype.iszero=function(){return Kuma3ary.equal(this,k0);}
 Kuma3ary.prototype.isone =function(){return Kuma3ary.equal(this,k1);}
 Kuma3ary.prototype.isw   =function(){return Kuma3ary.equal(this,kw);}
 Kuma3ary.prototype.isPT  =function(x){return this.t==",";}
