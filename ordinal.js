@@ -244,35 +244,14 @@ Ordinal.parse = function(text){
         }
       break;
       case "+":
-        if(1){ /* for debug */
-          var depthstr="";
-          for(var j=0;j<text.length;j++){
-            depthstr+=depth[j];
-          }
-          console.log("before");
-          console.log(now);
-          console.log(text);
-          console.log(depthstr);
-        }
-        var ibegin=i;
-        while(1){
-          ibegin=text.lastIndexOf("(",ibegin);
-          if((ibegin<=0 || depth[ibegin]==now)){
-            break; //found
-          }else{
-            ibegin--;
+        var ibegin=0;
+        for(var j=i;j>=0;j--){
+          if(depth[j]<now){
+            ibegin=j+1;
+            break;
           }
         }
-        if(1){ /* for debug */
-          var depthstr="";
-          for(var j=0;j<text.length;j++){
-            depthstr+=depth[j];
-          }
-          console.log("before");
-          console.log(now);
-          console.log(text);
-          console.log(depthstr);
-        }
+        Ordinal.debug(text, depth, now, "before upgrade");//debug
 
         if(ibegin>0 && text[ibegin-1]=="+"){ // leading +
           // already acsent -> nop
@@ -287,15 +266,7 @@ Ordinal.parse = function(text){
           depth[i]=now;
           now++;
         }
-        if(1){ /* for debug */
-          var depthstr="";
-          for(var j=0;j<text.length;j++){
-            depthstr+=depth[j];
-          }
-          console.log("after 1 up");
-          console.log(text);
-          console.log(depthstr);
-        }
+        Ordinal.debug(text, depth, now, "after upgrade");//debug
       break;
       case ",":
         for(var j=i;j>=0;j--){
@@ -313,21 +284,10 @@ Ordinal.parse = function(text){
       break;
     }
   }
-  if(1){ /* for debug */
-    var depthstr="";
-    for(var i=0;i<text.length;i++){
-      depthstr+=depth[i];
-    }
-    console.log("final");
-    console.log(text);
-    console.log(depthstr);
-  }
-
+  Ordinal.debug(text, depth, now, "final");//debug
   return makeobjectree(text, depth, this.prototype.constructor);
 }
 var makeobjectree = function(text,depth,Orgtype){
-//  console.log("enter makeobjectree");
-//  console.log(text);
   /* make object tree */
   var childbegin=0;
   var stack=[];
@@ -363,6 +323,24 @@ var makeobjectree = function(text,depth,Orgtype){
     return new Orgtype(type, stack);
   }
 }
+Ordinal.debug=function(text, depth, now, comment){
+  if(0){ /* for debug */
+    var depthstr="";
+    var scalestr="";
+    var nowstr  ="";
+    for(var j=0;j<text.length;j++){
+      scalestr+=(      j +"").slice(0,1);
+      depthstr+=(depth[j]+"").slice(0,1);
+      nowstr  +=j==now?"Vnow":" ";
+    }
+    console.log(" ");
+    console.log(nowstr);
+    console.log(scalestr+" "+comment);
+    console.log(text    +" ");
+    console.log(depthstr);
+  }
+}
+
 Ordinal.prototype.toString = function(){
   var outstr="";
   switch(this.t){
