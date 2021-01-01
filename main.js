@@ -14,6 +14,7 @@ var loadlink=function(){
     var str = query.match(/(o=)(.*$)/)[2];
     str=str.replace(/\./g, " ");
     str=str.replace(/;/g, "\n");
+    str=str.replace(/_/g, "");
     intext.value=str;
   }
 }
@@ -28,7 +29,7 @@ var savelink=function(){
   str=str.replace(/\s\s*/g, ".");
   str=str.replace(/;\./g, ";");
   str=str.replace(/\.;/g, ";");
-  query+=str;
+  query+=str+"_";
   document.getElementById("link").href = location.origin+location.pathname+"?"+query;
 }
 
