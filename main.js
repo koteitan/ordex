@@ -138,6 +138,42 @@ var compare=function(){
   }//y
 };
 
+/** dom()
+  * @brief get dom() of intext and output result into outtext.
+  * @details This function is called by clicking "dom" button.
+*/
+var dom=function(){
+  //input
+  var mstr=intext.value;
+  //split
+  var ystr=mstr.split("\n");
+  
+  outtext.value="";
+  for(var y=0;y<ystr.length;y++){
+    //trim
+    var str=ystr[y].replace(/\s\s*/g, " ");
+    str=str.replace(/^\s*/g, "");
+    str=str.replace(/\s*$/g, "");
+    if(str!=""){
+      var xstr=str.split(" ");
+      for(var x=0;x<xstr.length;x++){
+        str=xstr[x];
+        if(str!=""){
+          //dom
+          var o=Kuma3ary.parse(str);
+          var d=o.dom();
+          //out string expression
+          outtext.value+=d.toString(Kuma3ary.toSugar);
+          //out tree expression
+        }
+        outtext.value+="  ";
+      }//x
+    }
+    outtext.value+="\n";
+  }//y
+};
+
+
 /* Those are for debugging */
 k0=new Kuma3ary("0");
 k1=new Kuma3ary("1");
