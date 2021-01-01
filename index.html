@@ -18,15 +18,16 @@
 <body>
 <h1>ordex: Ordinal Expander in JavaScript</h1>
 <form id='form'>
-data:<br>
+input:<br>
 <textarea id='intext' rows=10 style="width:95%" class='myinput'>
 </textarea><br>
-このバージョンはくまくま３変数ψの構文解析のみできます。<br>
-ψ_{X1}(X2,X3) は (X1,X2,X3) のように書いてください。<br>
-略記は 0,1,2,3,4,5,6,7,8,9,w のみが有効です。<br>
+This version can only parse the Kuma Kuma N-ary psi notation.<br>
+Please write ψ_{X1}(X2,X3) as (X1,X2,X3)<br>
+sugar syntax 0,1,2,3,4,5,6,7,8,9,w is available.<br>
 ↓<br>
-<input type=button id=draw value='構文解析する' onclick='javscript:dothemall();'><br>
+<input type=button id=draw value='parse' onclick='javscript:parse();'><br>
 ↓<br>
+output:<br>
 <textarea id='outtext' rows=10 style="width:95%" class='myinput'>
 </textarea><br>
 <img id='outimg' style='border-style:solid;border-width:1px'>
@@ -36,7 +37,7 @@ test
 </textarea>
 </form>
 <address>
-<u>ordex: Ordinal Expander in Javascript version 0.2</u><br>
+<u>ordex: Ordinal Expander in Javascript version 0.3</u><br>
 Original Kuma kuma 3-ary Psi (<a href="https://googology.wikia.org/wiki/User_blog:Kanrokoti/3_variables_%CF%88_which_is_larger_than_EBOCF">Kuma kuma 3-variables Psi</a> was invented by Kanrokoti(<a href="https://googology.wikia.org/wiki/User:Kanrokoti">en</a>/<a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC:Kanrokoti">ja</a>)<br>
 programmed by <a href="https://twitter.com/koteitan">koteitan</a><br>
 Source code is on <a href="https://github.com/koteitan/ordex/">github</a><br>
