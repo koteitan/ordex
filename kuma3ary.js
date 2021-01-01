@@ -28,8 +28,8 @@ Kuma3ary = function(t,a){
   if(isFinite(t)){ //N
     this.t="+";
     this.a=new Array(parseInt(t));
-    for(var i=0;i<t.length;i++){
-      this.a[i]=new Kuma3ary("0");
+    for(var i=0;i<this.a.length;i++){
+      this.a[i]=new Kuma3ary("1");
     }
     this.p=null;
     return;
