@@ -219,25 +219,36 @@ Ordinal.prototype.parse = function(text){
         now++;
       break;
       case ")":
+        now--;
         for(var j=i;j>=0;j--){
-          if(text[j]=="(" && depth[j]<now){
+          if((text[j]=="("||text[j]==",") && depth[j]<=now){
             depth[i]=depth[j];
-            now=depth[i];
+            now=depth[j];
             break;
           }
         }
       break;
       case "+":
-        prevope=c;
-        depth[i]=now;
-        now++;
         var ibegin=text.lastIndexOf("(",i-3);
-        for(var j=ibegin;j<i;j++){
-          depth[j]++;
+        if(ibegin-1<0 || text[ibegin-1]!="+"){ //first +
+          depth[i]=now;
+          now++;
+          //acent left parameter of +
+          for(var j=ibegin;j<i;j++){
+            depth[j]++;
+          }
+        }else{
+          depth[i]=now-1;
         }
       break;
       case ",":
-        now--;
+        for(var j=i;j>=0;j--){
+          if((text[j]=="("||text[j]==",") && depth[j]<now){
+            depth[i]=depth[j];
+            now=depth[j];
+            break;
+          }
+        }
         depth[i]=now;
         now++;
       break;
@@ -252,6 +263,8 @@ Ordinal.prototype.parse = function(text){
   }
   console.log(text);
   console.log(depthstr);
+
+  
 }
 Ordinal.prototype.toString = function(){
   var outstr="";
