@@ -31,6 +31,39 @@ var parse=function(){
     outtext.value+="\n";
   }
 };
+/** compare()
+  * @brief parse intext and output result into outtext.
+  * @details This function is called by clicking "parse" button.
+*/
+var compare=function(){
+  //input
+  var mstr=intext.value;
+  //split
+  var astr=mstr.split("\n");
+  
+  outtext.value="";
+  for(var i=0;i<astr.length;i++){
+    //trim
+    var str2=astr[i].replace(/^[\s]/g, "");
+    var str2=astr[i].replace(/[\s]$/g, "");
+    var str2=astr[i].replace(/\s\s*/g, " ");
+    if(str2!=""){
+      var astr2=str2.split(" ");
+      //parse
+      var x=Kuma3ary.parse(astr2[0]);
+      var y=Kuma3ary.parse(astr2[1]);
+      //out string expression
+      var c;
+      if     (Kuma3ary.lessthan(x,y)) c = " < ";
+      else if(Kuma3ary.equal   (x,y)) c = " = ";
+      else                            c = " > ";
+      outtext.value+=x.toString(Kuma3ary.toSugar);
+      outtext.value+=c;
+      outtext.value+=y.toString(Kuma3ary.toSugar);
+    }
+    outtext.value+="\n";
+  }
+};
 
 /* Those are for debugging */
 k0=new Kuma3ary("0");
