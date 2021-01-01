@@ -76,35 +76,39 @@ var compare=function(){
   //input
   var mstr=intext.value;
   //split
-  var astr=mstr.split("\n");
+  var ystr=mstr.split("\n");
   
   outtext.value="";
-  for(var i=0;i<astr.length;i++){
+  for(var y=0;y<ystr.length;y++){
     //trim
-    var str2=astr[i].replace(/^\s*/g , "" );
-    var str2=   str2.replace(/\s*$/g , "" );
-    var str2=   str2.replace(/\s\s*/g, " ");
-    if(str2!=""){
-      var astr2=str2.split(" ");
-      //parse
-      if(astr2.length>=2){
-        var x=Kuma3ary.parse(astr2[0]);
-        var y=Kuma3ary.parse(astr2[1]);
-        //out string expression
-        var c;
-        if     (Kuma3ary.lessthan(x,y)) c = " < ";
-        else if(Kuma3ary.equal   (x,y)) c = " = ";
-        else                            c = " > ";
-        outtext.value+=x.toString(Kuma3ary.toSugar);
-        outtext.value+=c;
-        outtext.value+=y.toString(Kuma3ary.toSugar);
-      }else{
-        var x=Kuma3ary.parse(astr2[0]);
-        outtext.value+=x.toString(Kuma3ary.toSugar);
+    var str=ystr[y].replace(/^\s*/g , "" );
+    var str=   str.replace(/\s*$/g , "" );
+    var str=   str.replace(/\s\s*/g, " ");
+    if(str!=""){
+      var xstr=str.split(" ");
+      for(var x=0;x<Math.floor(xstr.length/2);x++){
+        if(str!=""){
+          //parse
+          var a=Kuma3ary.parse(xstr[x*2+0]);
+          var b=Kuma3ary.parse(xstr[x*2+1]);
+          //out string expression
+          var c;
+          if     (Kuma3ary.lessthan(a,b)) c = " < ";
+          else if(Kuma3ary.equal   (a,b)) c = " = ";
+          else                            c = " > ";
+          outtext.value+=a.toString(Kuma3ary.toSugar);
+          outtext.value+=c;
+          outtext.value+=b.toString(Kuma3ary.toSugar);
+        }
+        outtext.value+="  ";
+      }//x
+      if(xstr.length%2==1){
+        var x=Kuma3ary.parse(xstr[xstr.length-1]);
+        outtext.value+=a.toString(Kuma3ary.toSugar);
       }
     }
     outtext.value+="\n";
-  }
+  }//y
 };
 
 /* Those are for debugging */
