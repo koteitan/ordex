@@ -341,7 +341,7 @@ Ordinal.debug=function(text, depth, now, comment){
   }
 }
 
-Ordinal.prototype.toString = function(){
+Ordinal.prototype.toString = function(sugar){
   var outstr="";
   switch(this.t){
     case "0":
@@ -365,5 +365,38 @@ Ordinal.prototype.toString = function(){
       return "error:this.type="+this.type;
     break;
   }
+  if(typeof(sugar)!="undefined"){
+    outstr=sugar(outstr);
+  }
   return outstr;
 }
+
+Ordinal.prototype.toTree = function(){
+  var outstr="";
+  switch(this.t){
+    case "0":
+      outstr+="0";
+    break;
+    case "+":
+      outstr+="+^{";
+      for(var i=0;i<this.a.length;i++){
+        if(i>0)outstr+=",";
+        outstr+=this.a[i].toTree();
+      }
+      outstr+="}";
+    break;
+    case ",":
+      outstr+="psi^{";
+      for(var i=0;i<this.a.length;i++){
+        if(i>0)outstr+=",";
+        outstr+=this.a[i].toTree();
+      }
+      outstr+="}";
+    break;
+    default:
+      return "error:this.type="+this.type;
+    break;
+  }
+  return outstr;
+}
+
