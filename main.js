@@ -4,13 +4,14 @@ window.onload=function(){ //entry point
   intext.value = o.toString();
 };
 var dothemall=function(){ //button
+  //input
   var str=intext.value;
-  //trimming \n
-  str=str.replace(/^\n*/g, "");
-  str=str.replace(/\n*$/g, "");
-  str=str.replace(/\n+/g, "\n");
+  //trim
+  str=str.replace(/[\n\s]/g, "");
   //parse
-  //test
+  var o=Kuma3ary.parse(str);
+  //out
+  outtext.value=o.toString();
 };
 k0=new Kuma3ary("0");
 k1=new Kuma3ary("1");
