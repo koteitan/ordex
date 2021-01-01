@@ -5,10 +5,25 @@
  *   - definition of Originaltype("0")
  *   - definition of Originaltype("1")
  * */
-Ordinal = function(){
-  this.t = "0";
-  this.a = [];
+Ordinal = function(_t,_a){
   this.p = null;
+  // string
+  if((typeof _t)!="undefined" && _t=="s"){
+    var o=Ordinal.parse("s",t);
+    this.t=o.t;
+    this.a=o.a;
+    return;
+  }
+  //other
+  if((typeof _t)=="undefined" || (typeof _a)=="undefined"){
+    this.t = "0";
+    this.a = [];
+    return;
+  }else{
+    this.t = _t;
+    this.a = _a;
+    return;
+  }
 };
 
 /**@fn o=Ordinal.add(a,b,o)
@@ -204,7 +219,7 @@ Ordinal.prototype.catleft=function(a){
 }
 
 /* parse text as recursive parenthesis */
-Ordinal.prototype.parse = function(text){
+Ordinal.parse = function(text){
   text=text.replace(/[\n\s]/g, "");
   
   /* depth analysis */
@@ -229,16 +244,57 @@ Ordinal.prototype.parse = function(text){
         }
       break;
       case "+":
-        var ibegin=text.lastIndexOf("(",i-3);
-        if(ibegin-1<0 || text[ibegin-1]!="+"){ //first +
+        if(1){ /* for debug */
+          var depthstr="";
+          for(var j=0;j<text.length;j++){
+            depthstr+=depth[j];
+          }
+          console.log("before");
+          console.log(now);
+          console.log(text);
+          console.log(depthstr);
+        }
+        var ibegin=i;
+        while(1){
+          ibegin=text.lastIndexOf("(",ibegin);
+          if((ibegin<=0 || depth[ibegin]==now)){
+            break; //found
+          }else{
+            ibegin--;
+          }
+        }
+        if(1){ /* for debug */
+          var depthstr="";
+          for(var j=0;j<text.length;j++){
+            depthstr+=depth[j];
+          }
+          console.log("before");
+          console.log(now);
+          console.log(text);
+          console.log(depthstr);
+        }
+
+        if(ibegin>0 && text[ibegin-1]=="+"){ // leading +
+          // already acsent -> nop
+          now--;
           depth[i]=now;
           now++;
+        }else{
           //acent left parameter of +
           for(var j=ibegin;j<i;j++){
             depth[j]++;
           }
-        }else{
-          depth[i]=now-1;
+          depth[i]=now;
+          now++;
+        }
+        if(1){ /* for debug */
+          var depthstr="";
+          for(var j=0;j<text.length;j++){
+            depthstr+=depth[j];
+          }
+          console.log("after 1 up");
+          console.log(text);
+          console.log(depthstr);
         }
       break;
       case ",":
@@ -257,14 +313,55 @@ Ordinal.prototype.parse = function(text){
       break;
     }
   }
-  var depthstr="";
-  for(var i=0;i<text.length;i++){
-    depthstr+=depth[i];
+  if(1){ /* for debug */
+    var depthstr="";
+    for(var i=0;i<text.length;i++){
+      depthstr+=depth[i];
+    }
+    console.log("final");
+    console.log(text);
+    console.log(depthstr);
   }
-  console.log(text);
-  console.log(depthstr);
 
-  
+  return makeobjectree(text, depth, this.prototype.constructor);
+}
+var makeobjectree = function(text,depth,Orgtype){
+//  console.log("enter makeobjectree");
+//  console.log(text);
+  /* make object tree */
+  var childbegin=0;
+  var stack=[];
+  var type="";
+  for(var i=0;i<text.length;i++){
+    var c=text[i];
+    if(depth[i]==0){
+      if(i>childbegin){
+        var subdepth = depth.slice(childbegin,i);
+        var subtext  = text.slice(childbegin,i);
+        for(var j=0;j<subdepth.length;j++)subdepth[j]--;
+        stack.push(makeobjectree(subtext, subdepth, Orgtype));
+        childbegin=i+1;
+        switch(text[i]){
+          case "+":                     type="+"; break;
+          case "(": case ",": case ")": type=","; break;
+          default:break;
+        }
+      }else{
+        childbegin=1;
+      }
+    }
+  }
+  if(i>childbegin){
+    var subdepth = depth.slice(childbegin,i);
+    var subtext  = text.slice(childbegin,i);
+    for(var j=0;j<subdepth.length;j++)subdepth[j]--;
+    stack.push(makeobjectree(subtext, subdepth, Orgtype));
+  }
+  if(type==""){
+    return new Orgtype(text);
+  }else{
+    return new Orgtype(type, stack);
+  }
 }
 Ordinal.prototype.toString = function(){
   var outstr="";

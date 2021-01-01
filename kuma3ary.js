@@ -4,33 +4,44 @@
   ex. new Kuma3ary(1); // means 1
   ex. new Kuma3ary("w"); // means w  
  */
-Kuma3ary = function(_in){
-  Ordinal.call(this,_in);
-  if(typeof(_in)==='undefined'||parseInt(_in)){
-    //nop
-  }else if(isFinite(_in)){
-    if(parseInt(_in)==1){
-      this.t=',';
-      this.a=[new Kuma3ary(),new Kuma3ary(),new Kuma3ary()];
+Kuma3ary = function(t,a){
+  // nicknames
+  switch(t){
+    case "0":
+      this.t="0";
+      this.a=null;
       this.p=null;
-      this.a[0].p=this;
-      this.a[1].p=this;
-      this.a[2].p=this;
-    }else{
-      //under construction
-    }
-  }else if(_in=="w"){
-    this.t=",";
-    this.a=[new Kuma3ary(0), new Kuma3ary(0), new Kuma3ary(1)];
-    this.p=null;
-  }else if(_in=="+"){
+    return;
+    case "1":
+      this.t=",";
+      this.a=[new Kuma3ary("0"),new Kuma3ary("0"),new Kuma3ary("0")];
+      this.p=null;
+    return;
+    case "w": //omega
+      this.t=",";
+      this.a=[new Kuma3ary("0"), new Kuma3ary("0"), new Kuma3ary("1")];
+      this.p=null;
+    return;
+    default:
+    break;
+  }
+  if(isFinite(t)){ //N
     this.t="+";
-    this.a=[];
+    this.a=new Array(parseInt(t));
+    for(var i=0;i<t.length;i++){
+      this.a[i]=new Kuma3ary("0");
+    }
     this.p=null;
-  }else if(_in==","){
-    this.t=",";
-    this.a=[];
-    this.p=null;
+    return;
+  }
+  
+  // primitive 
+  if(typeof(t)=="undefined"){
+    Ordinal.call(this);
+  }else if(typeof(a)=="undefined"){
+    Ordinal.call(this,t);
+  }else{
+    Ordinal.call(this,t,a);
   }
 }
 Kuma3ary.prototype = Object.create(Ordinal.prototype);
@@ -38,3 +49,4 @@ Object.defineProperty(Kuma3ary.prototype, 'constructor',
   {value:Kuma3ary, enumerable:false, writable:true});
 Kuma3ary.add = Ordinal.add;
 Kuma3ary.cat = Ordinal.cat;
+Kuma3ary.parse = Ordinal.parse;

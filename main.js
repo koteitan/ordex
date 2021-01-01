@@ -12,7 +12,7 @@ var dothemall=function(){ //button
   //parse
   //test
 };
-k0=new Kuma3ary(0);
-k1=new Kuma3ary(1);
+k0=new Kuma3ary("0");
+k1=new Kuma3ary("1");
 kw=new Kuma3ary("w");
 
