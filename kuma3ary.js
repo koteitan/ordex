@@ -66,13 +66,14 @@ Kuma3ary.parse = Ordinal.parse;
 Kuma3ary.prototype.iszero=function(x){return this.t=="0";}
 Kuma3ary.prototype.isPT  =function(x){return this.t==",";}
 Kuma3ary.prototype.isadd =function(x){return this.t=="+";}
-Kuma3ary.prototype.slice =function(s,e){ return Kuma3ary(this.t, this.a.slice(s,e));}
+Kuma3ary.prototype.slice =function(s,e){ return new Kuma3ary(this.t, this.a.slice(s,e));}
 
 /** @fn this.equal()
   * @returns true if x==y. */
 Kuma3ary.equal=function(x,y){
   if(x.t!=y.t) return false;
-  if(x.a instanceof Array && y.a instanceof Array && x.a.length==y.a.length){
+  if(x.a instanceof Array && y.a instanceof Array){
+    if(x.a.length!=y.a.length) return false;
     for(var i=0;i<x.a.length;i++){
       if(!Kuma3ary.equal(x.a[i],y.a[i])) return false;
     }
@@ -99,15 +100,18 @@ Kuma3ary.lessthan=function(x,y){
   /* 2-2-2   */     if( Kuma3ary.equal(x1,y1) && !Kuma3ary.equal(x2,y2)) return Kuma3ary.lessthan(x2,y2);
   /* 2-2-3   */     if(!Kuma3ary.equal(x1,y1)                          ) return Kuma3ary.lessthan(x1,y1);
   /*         */   }
-  /* 2-3     */   if(y.isadd()) return Kuma3ary.equal(x,y1) || Kuma3ary.lessthan(x,y1);
+  /* 2-3     */   if(y.isadd()){
+  /*         */     var y1 = y.a[0]; var y2 = y.a[1]; var y3 = y.a[2];
+  /*         */     return Kuma3ary.equal(x,y1) || Kuma3ary.lessthan(x,y1);
+  /*         */   }
   /*         */ }
   /* 3       */ if(x.isadd()){
+  /*         */   var x1 = x.a[0]; var x2 = x.a[1]; var x3 = x.a[2]; var xm = x.a.length;
   /* 3-1     */   if(y.iszero()) return false; 
-  /* 3-2     */   if(y.isPT  ()) return Kuma3ary.equal(x1,y); 
+  /* 3-2     */   if(y.isPT  ()) return Kuma3ary.lessthan(x1,y); 
   /* 3-3     */   if(y.isadd ()){ 
-  /*         */     var xm = x.a.length;
-  /*         */     var ym = y.a.length;
-  /*         */     var x2ym = x.slice(1); /* x2+x3+...+xm */
+  /*         */     var y1 = y.a[0]; var y2 = y.a[1]; var y3 = x.a[2]; var ym = y.a.length;
+  /*         */     var x2xm = x.slice(1); /* x2+x3+...+xm */
   /*         */     var y2ym = y.slice(1); /* y2+y3+...+ym */
   /* 3-3-1   */     if(Kuma3ary.equal(x1,y1)){
   /* 3-3-1-1 */       if(xm==2 && ym==2) return Kuma3ary.lessthan(x2  , y2  );
