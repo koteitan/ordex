@@ -4,7 +4,34 @@
 */
 window.onload=function(){
   intext.value = "0\n1\n2\nw";
+  loadlink();
+  savelink();
 };
+var loadlink=function(){
+  var query=location.search.substr(1);
+  if(query.length>0){
+    //get matrix
+    var str = query.match(/(o=)(.*$)/)[2];
+    str=str.replace(/\./g, " ");
+    str=str.replace(/;/g, "\n");
+    intext.value=str;
+  }
+}
+var savelink=function(){
+  var query="o=";
+  var str=intext.value;
+  str=str.replace(/^\n*/g, "");
+  str=str.replace(/\n*$/g, "");
+  str=str.replace(/^\s*/g, "");
+  str=str.replace(/\s*$/g, "");
+  str=str.replace(/\n\n*/g, ";");
+  str=str.replace(/\s\s*/g, ".");
+  str=str.replace(/;\./g, ";");
+  str=str.replace(/\.;/g, ";");
+  query+=str;
+  document.getElementById("link").href = location.origin+location.pathname+"?"+query;
+}
+
 /** parse()
   * @brief parse intext and output result into outtext.
   * @details This function is called by clicking "parse" button.
@@ -103,7 +130,7 @@ var compare=function(){
         outtext.value+="  ";
       }//x
       if(xstr.length%2==1){
-        var x=Kuma3ary.parse(xstr[xstr.length-1]);
+        var a=Kuma3ary.parse(xstr[xstr.length-1]);
         outtext.value+=a.toString(Kuma3ary.toSugar);
       }
     }
