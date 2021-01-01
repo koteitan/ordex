@@ -7,7 +7,7 @@ var dothemall=function(){ //button
   var mstr=intext.value;
   //split
   var astr=mstr.split("\n");
-  outtext.value+="";
+  outtext.value="";
   for(var i=0;i<astr.length;i++){
     //trim
     var str=astr[i].replace(/[\s]/g, "");
