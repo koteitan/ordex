@@ -63,7 +63,9 @@ Kuma3ary.parse = Ordinal.parse;
 /* ----------------------------------------------------- end */
 
 
-Kuma3ary.prototype.iszero=function(x){return this.t=="0";}
+Kuma3ary.prototype.isone =function(){return Kuma3ary.equal(this,k0);}
+Kuma3ary.prototype.isone =function(){return Kuma3ary.equal(this,k1);}
+Kuma3ary.prototype.isw   =function(){return Kuma3ary.equal(this,kw);}
 Kuma3ary.prototype.isPT  =function(x){return this.t==",";}
 Kuma3ary.prototype.isadd =function(x){return this.t=="+";}
 Kuma3ary.prototype.slice =function(s,e){ return new Kuma3ary(this.t, this.a.slice(s,e));}
@@ -81,6 +83,9 @@ Kuma3ary.equal=function(x,y){
   return true;
 }
 
+Kuma3ary.k0=new Kuma3ary("0");
+Kuma3ary.k1=new Kuma3ary("1");
+Kuma3ary.kw=new Kuma3ary("w");
 /* original part -------------------------------------------------------------------------------*/
 
 /** @fn lessthan(x,y)
@@ -91,7 +96,7 @@ Kuma3ary.equal=function(x,y){
   * */
 Kuma3ary.lessthan=function(x,y){
   /* 1       */ if(x.iszero()) return !y.iszero();
-  /* 2       */ if(x.isPT()){
+  /* 2       */ if(x.isPT  ()){
   /*         */   var x1 = x.a[0]; var x2 = x.a[1]; var x3 = x.a[2];
   /* 2-1     */   if(y.iszero()) return false;
   /* 2-2     */   if(y.isPT()){
@@ -125,7 +130,28 @@ Kuma3ary.lessthan=function(x,y){
   /*         */ }
 }
 
-
+Kuma3ary.prototype.dom=function(){
+  /*         */ var x=this;
+  /* 1       */ if(x.iszero()) return new Kuma3ary("0");
+  /* 2       */ if(x.isPT  ()){
+  /*         */   var x1 = x.a[0]; var x2 = x.a[1]; var x3 = x.a[2];
+  /* 2-1     */   if(x3.dom().iszero()){
+  /* 2-1-1   */     if(      x2.dom().iszero()){
+  /* 2-1-1-1 */       if(x1.dom().iszero() || x1.dom().isone()){return x  ;}
+  /* 2-1-1-2 */       else                                     {return x_1;}
+  /* 2-1-2   */     }else if(x2.dom().isone ()){return x;}
+  /* 2-1-3   */     else{
+  /* 2-1-3-1 */       if(Kuma3ary.lessthan(x2.dom(),x)){return x2.dom();}
+  /* 2-1-3-2 */       else return Kuma3ary.kw;
+  /*         */     }
+  /* 2-2     */   }else if(x3.dom().isone() || x3.dom().isw()){return kw;}
+  /* 2-3     */   else{
+  /* 2-3-1   */     if(Kuma3ary.lessthan(x3.dom(), x)){return x3.dom()}
+  /* 2-3-2   */     else{return kw;}
+  /*         */   }
+  /*         */ }
+  /* 3       */ else{return x.a[x.a.length-1].dom();}
+}
 
 
 
