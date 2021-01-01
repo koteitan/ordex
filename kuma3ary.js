@@ -50,3 +50,13 @@ Object.defineProperty(Kuma3ary.prototype, 'constructor',
 Kuma3ary.add = Ordinal.add;
 Kuma3ary.cat = Ordinal.cat;
 Kuma3ary.parse = Ordinal.parse;
+
+Kuma3ary.toSugar = function(outstr){
+  switch(outstr){
+    case "(0,0,0)":
+    return "1";
+    case "(0,0,1)":
+    return "w";
+  }
+  return outstr;
+}
