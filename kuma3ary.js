@@ -250,8 +250,8 @@ Kuma3ary.prototype.expand=function(y){
   /* 2-4         */   if(!x3.dom().iszero() && !x3.dom().isone() && !x3.dom().eq(kw)){
   /* 2-4-1       */     if(x3.dom().lt(x)) return newk(x1,x2,x3.expand(y));
   /* 2-4-2       */     else{
-                          var P=x3.a[0];
-                          var Q=x3.a[1];
+                          var P=x3.dom().a[0];
+                          var Q=x3.dom().a[1];
                           var h=y.toint();
   /* 2-4-2-1     */       if(Q.iszero()){
   /* 2-4-2-1-1   */         if(1<=h && h!=-1){
