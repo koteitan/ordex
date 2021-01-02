@@ -25,7 +25,6 @@
  *     This function calls Originaltype(t) when the constructor is missing.
  * */
 Ordinal = function(t,a){
-  this.p = null;
   // string
   if((typeof t)!="undefined" && t=="s"){
     var o=Ordinal.parse("s",t);
@@ -47,6 +46,26 @@ Ordinal = function(t,a){
 
 /* prototype functions -----------------------------*/
 
+/* @fn ordinal.clone()
+ * @brief create a clone of this object with deep copy.
+ * */
+Ordinal.prototype.clone = function(){
+  Orgtype = this.constructor;
+  switch(this.t){
+    case "0":
+    return new Orgtype("0");
+    case ",":
+    case "+":
+      var a=new Array(this.a.length);
+      for(var i=0;i<this.a.length;i++){
+        a[i]=this.a[i].clone();
+      }
+    return new Orgtype(this.t, a);
+    default:
+    throw new Error("the t is not supported.");
+    return;
+  }
+}
 /* @fn ordinal.toString(sugar)
  * @brief output the string expression of the ordinal.
  * @param sugar is the function to make the string into sugar syntax.
@@ -234,6 +253,209 @@ Ordinal.makeobjtree = function(text,depth,Orgtype){
     return new Orgtype(type, stack);
   }
 }
+/**@fn o=Ordinal.add(a,b)
+ * @brief return new object for a+b.
+ * @details
+ * Ordinal.add(a,b)      returns new Object added a and b.
+ * ex.
+ *  w^1+w^2+w^3+w^4+w^5+w^6 = Ordinal.add(w^1+w^2+w^3, w^4+w^5+w^6)
+ *  
+ * @param a = Added object in left  side of +. It should be object of Ordinal.
+ * @param b = Added object in right side of +. It should be object of Ordinal.
+ *            This parameter can be omitted.
+ * @returns = a+b.
+ */
+Ordinal.add = function(a,b){
+  if(!(a instanceof Ordinal)){
+    throw new Error("a is not instance of Ordinal");
+    return null;
+  }
+
+  var o=a.clone();
+  return o.addright(b);
+}
+/** @fn this=this.addright(b)
+ *  @brief renew this into this+b.
+ *  @param a = Added object. It should be object of Ordinal.
+ *  @returns this = same as this.
+ * ex.
+ * x = w^1+w^2+w^3;
+ * x.addright(w^4+w^5+w^6); // x = (w^1+w^2+w^3+w^4+w^5+w^6)
+ */
+Ordinal.prototype.addright=function(b){
+  if(!(b instanceof Ordinal)){
+    throw new Error("b is not instance of Ordinal");
+    return null;
+  }
+  var left;
+  if(this.t=="+"){
+    left=this.clone().a;
+  }else{
+    left=this.clone();
+  }
+  var right;
+  if(b.t=="+"){
+    right=b.a;
+  }else{
+    right=b;
+  }
+  
+  this.t = "+";
+  this.a = [].concat(left).concat(right);
+  return this;
+}
+/** @fn this=this.addleft(a)
+ *  @brief renew this into a+this.
+ *  @param a = Added object. It should be object of Ordinal.
+ *  @returns this = same as this.
+ * ex.
+ * x = w^4+w^5+w^6;
+ * x.addleft(w^1+w^2+w^3); // x = (w^1+w^2+w^3+w^4+w^5+w^6)
+ */
+Ordinal.prototype.addleft=function(a){
+  if(!(b instanceof Ordinal)){
+    throw new Error("b is not instance of Ordinal");
+    return null;
+  }
+  var left;
+  if(a.t=="+"){
+    left=a.a;
+  }else{
+    left=a;
+  }
+  var right;
+  if(this.t=="+"){
+    right=this.clone().a;
+  }else{
+    right=this.clone();
+  }
+  
+  this.t = "+";
+  this.a = [].concat(left).concat(right);
+  return this;
+}
+
+/**@fn o=Ordinal.cat(a,b,o)
+ * @brief return new object which is concatenation of a and b.
+ * @details
+ * Ordinal.cat(a,b)      returns new Object that is the concatenation of a and b.
+ * If a= (a0,a1,...,aN)  and b= (b0,b1,...,bN)  then o=( a0,a1,...,aN , b0,b1,...,bN ).
+ * If a= (a0,a1,...,aN)  and b=[(b0,b1,...,bN)] then o=( a0,a1,...,aN ,(b0,b1,...,bN)).
+ * If a=[(a0,a1,...,aN)] and b= (b0,b1,...,bN)  then o=((a0,a1,...,aN), b0,b1,...,bN ).
+ * If a=[(a0,a1,...,aN)] and b=[(b0,b1,...,bN)] then o=((a0,a1,...,aN),(b0,b1,...,bN)).
+ * ex.
+ *  ( a,b,c , d,e)  = Ordinal.add( (a,b,c) , (d,e) ). (o will have 5 elements.)
+ *  ((a,b,c), d,e)  = Ordinal.add([(a,b,c)], (d,e) ). (o will have 3 elements.)
+ *  ( a,b,c ,(d,e)) = Ordinal.add( (a,b,c) ,[(d,e)]). (o will have 4 elements.)
+ *  ((a,b,c),(d,e)) = Ordinal.add([(a,b,c)],[(d,e)]). (o will have 2 elements.)
+ *  
+ * @param o Destination object. It is omitted.
+ *          When o is Ordinal, this object is renewed.
+ *          When o is omitted, A new Object has type of a is created.
+ * @param a = Concatenated object in the left side. It should be object of Ordinal.
+ * @param b = concatenated object in the right side. It should be object of Ordinal.
+ * @param a_wrapped When this is false or a is not , returns (a,b1,b2,...), otherwise returns (a1,a2,
+ * @returns o = same as o.
+ */
+Ordinal.cat = function(a,b,a_wrapped,b_wrapped){
+  if(typeof a_wrapped == "undefined") a_wrapped=false;
+  if(typeof b_wrapped == "undefined") b_wrapped=false;
+  if(!(b instanceof Ordinal)){
+    throw new Error("b is not instance of Ordinal");
+    return null;
+  }
+  var o=a.clone();
+  return o.catright(b,a_wrapped,b_wrapped);
+}
+/** @fn this=this.catright(b)
+ *  @brief make this object (a1,a2,...b) when this object=(a1,a2,...).
+ *  @param b = concatenated object. It should be object of Ordinal or [Ordinal].
+ *  When b= Ordinal , this will be (a1,a2,...,b).
+ *  When b=[Ordinal], this will be (a1,a2,...,b1,b2,...).
+ *  @returns this = same as this.
+ *  @details
+ * ex.
+ * x = ((a,b,c));
+ * x.addright( (d,e,f) ); // x = (a,b,c, d,e,f )
+ * x =  (a,b,c) ;
+ * x.addright([(d,e,f)]); // x = (a,b,c,(d,e,f))
+ *
+ * If you need ((a,b,c), d,e,f) from this=(a,b,c) and (d,e,f), 
+ *  use Ordinal.cat([this], (d,e,f) ,this) instead of this function.
+ * If you need ((a,b,c),(d,e,f)), from this=(a,b,c) and (d,e,f),
+ *  use Ordinal.cat([this],[(d,e,f)],this) instead of this function.
+ */
+Ordinal.prototype.catright=function(b,a_wrapped,b_wrapped){
+  if(typeof a_wrapped == "undefined") a_wrapped=false;
+  if(typeof b_wrapped == "undefined") b_wrapped=false;
+  if(!(b instanceof Ordinal)){
+    throw new Error("b is not instance of Ordinal");
+    return null;
+  }
+  var a=this.clone();
+  var left;
+  if(a.t=="," && !a_wrapped){
+    left=a.a;
+  }else{
+    left=a;
+  }
+  var right;
+  if(b.t=="," && !b_wrapped){
+    right=b.a;
+  }else{
+    right=b;
+  }
+  this.t = ",";
+  this.a = [].concat(left).concat(right);
+  return this;
+}
+/** @fn this=this.catleft(a)
+ *  @brief make this object (a,b1,b2,...) when this object=(b1,b2,...).
+ *  @param a = concatenated object. It should be object of Ordinal or [Ordinal].
+ *  When b= Ordinal , this will be (b,a1,a2,...).
+ *  When b=[Ordinal], this will be (b1,b2,...,a1,a2,...,).
+ *  @returns this = same as this.
+ *  @details
+ * ex.
+ * x = ((d,e,f));
+ * x.addleft( (a,b,c) ); // x = ( a,b,c ,d,e,f)
+ * x =  (a,b,c) ;
+ * x.addleft([(a,b,c)]); // x = ((a,b,c),d,e,f)
+ *
+ * If you need ( a,b,c ,(d,e,f)) from this=(a,b,c) and (d,e,f), 
+ *  use Ordinal.cat( (a,b,c) ,[this]) instead of this fuction.
+ * If you need ((a,b,c),(d,e,f)) from this=(a,b,c) and (d,e,f), 
+ *  use Ordinal.cat([(a,b,c)],[this]) instead of this fuction.
+ */
+Ordinal.prototype.catleft=function(a,a_wrapped,b_wrapped){
+  if(typeof a_wrapped == "undefined") a_wrapped=false;
+  if(typeof b_wrapped == "undefined") b_wrapped=false;
+  if(b instanceof Array){
+    b=b[0];
+    b_wrapped=true;
+  }
+  if(!(b instanceof Ordinal)){
+    throw new Error("b is not instance of Ordinal");
+    return null;
+  }
+  var a=this.clone();
+  var left;
+  if(a.t=="," && !a_wrapped){
+    left=a.a;
+  }else{
+    left=a;
+  }
+  var right;
+  if(b.t=="," && !b_wrapped){
+    right=b.a;
+  }else{
+    right=b;
+  }
+  this.t = ",";
+  this.a = [].concat(left).concat(right);
+  return this;
+}
+
 /** @fn Ordinal.debug 
   * @brief output text and depth and now with comment into cosole log. 
   * @param text  = text of makeobjtree ()
