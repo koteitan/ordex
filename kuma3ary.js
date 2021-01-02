@@ -39,7 +39,13 @@ Kuma3ary = function(t,a){
   }
   
   /* programmer memo:  "+", "," can be parsed by Ordinal built-in function. */
-  Ordinal.call(this,t,a);
+  if(t=="+"||t==","){
+    Ordinal.call(this,t,a);
+  }else{
+    var o=Ordinal.parse(t);
+    this.t=o.t;
+    this.a=o.a;
+  }
 }
 
 /* @fn Kuma3ary.toSugar
@@ -65,7 +71,10 @@ Kuma3ary.toSugar = function(str){
 Kuma3ary.prototype = Object.create(Ordinal.prototype);
 Object.defineProperty(Kuma3ary.prototype, 'constructor', 
   {value:Kuma3ary, enumerable:false, writable:true});
-Kuma3ary.parse = Ordinal.parse;
+Kuma3ary.parse     = Ordinal.parse;
+Kuma3ary.normalize = Ordinal.normalize;
+Kuma3ary.add       = Ordinal.add;
+Kuma3ary.cat       = Ordinal.cat;
 /* ----------------------------------------------------- end */
 
 
@@ -81,7 +90,7 @@ Kuma3ary.prototype.isfinite=function(){
   if(this.t=="0") return true;
   if(this.t=="+"){
     for(var i=0;i<this.a.length;i++){
-      if(!this.t.a[i].isone()) return false;
+      if(!this.a[i].isone()) return false;
     }
     return true;
   }else{
@@ -127,8 +136,10 @@ Kuma3ary.kW=new Kuma3ary("W");
   * @returns = {true:x<y, false:x>=y}.
   * */
 Kuma3ary.lessthan=function(x,y){
-  /*         */ var eq = Kuma3ary.eq;
-  /*         */ var lt = Kuma3ary.lessthan;
+  if(!x instanceof Kuma3ary) throw new Error("x is not Kuma3ary object.");
+  if(!y instanceof Kuma3ary) throw new Error("y is not Kuma3ary object.");
+  var eq = Kuma3ary.eq;
+  var lt = Kuma3ary.lessthan;
   /* 1       */ if(x.iszero()) return !y.iszero();
   /* 2       */ if(x.isPT  ()){
   /*         */   var x1 = x.a[0]; var x2 = x.a[1]; var x3 = x.a[2];
@@ -165,10 +176,9 @@ Kuma3ary.lessthan=function(x,y){
 }
 
 Kuma3ary.prototype.dom=function(){
-  /*         */ var lt = Kuma3ary.lessthan;
-  /*         */ var kw = Kuma3ary.kw;
-  /*         */ var k0 = Kuma3ary.k0;
-  /*         */
+  var lt = Kuma3ary.lessthan;
+  var kw = Kuma3ary.kw;
+  var k0 = Kuma3ary.k0;
   /*         */ var x  = this;
   /* 1       */ if(x.iszero()) return k0;
   /* 2       */ if(x.isPT  ()){
@@ -192,12 +202,12 @@ Kuma3ary.prototype.dom=function(){
 }
 
 Kuma3ary.prototype.expand=function(y){
-  /*             */ var lt = Kuma3ary.lessthan;
-  /*             */ var k0 = Kuma3ary.k0;
-  /*             */ var kw = Kuma3ary.kw;
-  /*             */ var x  = this;
-  /*             */
-  /*             */ var newk = function(x1,x2,x3){new Kuma3ary(",",[x1,x2,x3]);};
+  if(!y instanceof Kuma3ary) throw new Error("y is not Kuma3ary object.");
+  var lt = Kuma3ary.lessthan;
+  var k0 = Kuma3ary.k0;
+  var kw = Kuma3ary.kw;
+  var x  = this;
+  var newk = function(x1,x2,x3){return new Kuma3ary(",",[x1,x2,x3]);};
   /* 1           */ if(x.iszero()) return k0;
   /* 2           */ else if(x.isPT  ()){
   /*             */   var x1 = x.a[0]; var x2 = x.a[1]; var x3 = x.a[2];
@@ -229,10 +239,10 @@ Kuma3ary.prototype.expand=function(y){
   /*             */       }
   /*             */     }
   /* 2-2         */   }else if(x3.dom().isone()){
-  /* 2-2-1       */     if(y.isone()) return newk(x1,x2,x3.expand(0));
+  /* 2-2-1       */     if(y.isone()) return newk(x1,x2,x3.expand(k0));
   /* 2-2-2       */     else{
                           var k=y.toint();
-                          if(2<=k && k!=-1) return newk(x1,x2,x3(0)).mul(k);
+                          if(2<=k && k!=-1) return newk(x1,x2,x3.expand(k0)).mul(k);
   /* 2-2-3       */       else return k0;
                         }
   /* 2-3         */   }else if(x3.dom().eq(kw)) return newk(x1,x2,x3.expand(y));
@@ -260,10 +270,11 @@ Kuma3ary.prototype.expand=function(y){
   /*             */   }
   /*             */ }
   /* 3           */ else if(x.isadd()){
-                      var m=x.a.length-1;
-  /* 3-1         */   if(x.a[m].expand(y).iszero() && m==2) return x1;
-  /* 3-2         */   if(x.a[m].expand(y).iszero() && m> 2) return x.slice(0,m);
-  /* 3-3         */   if(x.a[m].expand(y).isPT  () && m==2) return x.slice(0,m).add(x.a[m].expand(y));
+  /*             */   var m=x.a.length;
+                      var xm_y = x.a[m-1].expand(y);
+  /* 3-1         */   if(xm_y.iszero() && m==2) return x.a[0];
+  /* 3-2         */   if(xm_y.iszero() && m> 2) return x.slice(0,m-1);
+  /* 3-3         */   if(xm_y.isPT  ()        ) return x.slice(0,m-1).addright(x.a[m-1].expand(y));
                     }
 }
 
