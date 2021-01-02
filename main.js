@@ -3,7 +3,7 @@
   * @details This function is called by loading the window.
 */
 window.onload=function(){
-  intext.value = "0\n1\n2\nw";
+  intext.value = " 0  1 \n w 1 \n w 3 \n w+w 3 \n (0,0,w) 3";
   loadlink();
   savelink();
 };
@@ -67,6 +67,10 @@ var parse=function(){
   }//y
 };
 
+/** drawtree()
+  * @brief parse intext and output tree structure into outtext.
+  * @details This function is called by clicking "tree" button.
+*/
 var drawtree=function(){
   //input
   var mstr=intext.value;
@@ -98,7 +102,7 @@ var drawtree=function(){
 };
 /** compare()
   * @brief parse intext and output result into outtext.
-  * @details This function is called by clicking "parse" button.
+  * @details This function is called by clicking "compare" button.
 */
 var compare=function(){
   //input
@@ -127,6 +131,42 @@ var compare=function(){
           outtext.value+=a.toString(Kuma3ary.toSugar);
           outtext.value+=c;
           outtext.value+=b.toString(Kuma3ary.toSugar);
+        }
+        outtext.value+="  ";
+      }//x
+      if(xstr.length%2==1){
+        var a=Kuma3ary.parse(xstr[xstr.length-1]);
+        outtext.value+=a.toString(Kuma3ary.toSugar);
+      }
+    }
+    outtext.value+="\n";
+  }//y
+};
+/** expand()
+  * @brief expand intext X Y and output result X[Y] into outtext.
+  * @details This function is called by clicking "expand" button.
+*/
+var expand=function(){
+  //input
+  var mstr=intext.value;
+  //split
+  var ystr=mstr.split("\n");
+  
+  outtext.value="";
+  for(var y=0;y<ystr.length;y++){
+    //trim
+    var str=ystr[y].replace(/^\s*/g , "" );
+    var str=   str.replace(/\s*$/g , "" );
+    var str=   str.replace(/\s\s*/g, " ");
+    if(str!=""){
+      var xstr=str.split(" ");
+      for(var x=0;x<Math.floor(xstr.length/2);x++){
+        if(str!=""){
+          //parse
+          var a=Kuma3ary.parse(xstr[x*2+0]);
+          var b=Kuma3ary.parse(xstr[x*2+1]);
+          //out string expression
+          outtext.value += a.expand(b).toString(Kuma3ary.toSugar);
         }
         outtext.value+="  ";
       }//x
