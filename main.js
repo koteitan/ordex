@@ -21,17 +21,12 @@ var loadlink=function(){
 var makelink=function(){
   var query="o=";
   var str=intext.value;
-  str=str.replace(/^\n*/g, "");
-  str=str.replace(/\n*$/g, "");
-  str=str.replace(/^\s*/g, "");
-  str=str.replace(/\s*$/g, "");
-  str=str.replace(/\n\n*/g, ";");
-  str=str.replace(/\s\s*/g, ".");
-  str=str.replace(/;\./g, ";");
-  str=str.replace(/\.;/g, ";");
+  str=str.replace(/\n/g, ";");
+  str=str.replace(/\s/g, ".");
   query+=str+"_";
   var url = location.origin+location.pathname+"?"+query;
   document.getElementById("link").href = url;
+  document.title=str;
   return url;
 }
 var autosave=function(){
