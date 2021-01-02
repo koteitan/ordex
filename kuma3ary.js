@@ -16,7 +16,7 @@ Kuma3ary = function(t,a){
     return;
     case "1":
       this.t=",";
-      this.a=[new Kuma3ary("0"),new Kuma3ary("0"),new Kuma3ary("0")];
+      this.a=[new Kuma3ary("0"), new Kuma3ary("0"), new Kuma3ary("0")];
     return;
     case "w":
       this.t=",";
@@ -25,6 +25,20 @@ Kuma3ary = function(t,a){
     case "W":
       this.t=",";
       this.a=[new Kuma3ary("0"), new Kuma3ary("1"), new Kuma3ary("0")];
+    return;
+    case "e":
+      this.t=",";
+      this.a=[new Kuma3ary("0"), new Kuma3ary("0"), new Kuma3ary("W")];
+    return;
+    case "z":
+      var k=Kuma3ary.parse("(0,0,(0,1,W))");
+      this.t=k.t;
+      this.a=k.a;
+    return;
+    case "G":
+      var k=Kuma3ary.parse("(0,0,(0,1,(0,1,W)))");
+      this.t=k.t;
+      this.a=k.a;
     return;
     default:
     break;
@@ -58,10 +72,21 @@ Kuma3ary.toSugar = function(str){
   switch(str){
     case "(0)": case "(0,0)": case "(0,0,0)":
     return "1";
+    
     case "(1)": case "(0,0,1)": case "(0,0,1)":
     return "w";
+    
     case "(1,0)": case "(0,1,0)":
     return "W";
+    
+    case "(0,W)": case "(0,0,W)":
+    return "e";
+    
+    case "(0,(0,1,W))": case "(0,0,(0,1,W))":
+    return "z";
+    
+    case "(0,(0,1,(0,1,W)))": case "(0,0,(0,1,(0,1,W)))":
+    return "G";
   }
   return str;
 }
