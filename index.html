@@ -50,7 +50,7 @@ output:<br>
 <dl>
   <dt>usage</dt><dd>
 <ul>
-  <li>This version can parse/compare/dom/expand the <a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E3%83%96%E3%83%AD%E3%82%B0:Kanrokoti/%E3%81%8F%E3%81%BE%E3%81%8F%E3%81%BE3%E5%A4%89%E6%95%B0%CF%88">Kuma Kuma N-ary psi notation</a>.</li>
+  <li>This version can parse/compare/dom/expand the <a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E3%83%96%E3%83%AD%E3%82%B0:Kanrokoti/%E3%81%8F%E3%81%BE%E3%81%8F%E3%81%BE3%E5%A4%89%E6%95%B0%CF%88">Kuma Kuma 3-ary psi notation</a>.</li>
   <li>Please write ψ_{X1}(X2,X3) as (X1,X2,X3)</li>
   <li>Sugar syntax 0,1,2,3,4,5,6,7,8,9,w is available.</li>
   <li>Multiple rows give you the multiple result at once.</li>
@@ -63,11 +63,12 @@ output:<br>
   (0,0,w)+w<br>
   (0,0,(0,0,0))+1+1<br>
   </div></dd>
-  <dt>drawtree</dt><dd>It shows tree structor of the objects.</dd>
-  <dt>compare</dt><dd>it compares 2 ordinal notations. Put a space between two notations. ex.:
-  <dt>dom</dt><dd>It returns dom(X) into output box when you put X input box.</dd>
-  <dt>expand</dt><dd>It returns X[Y] into output box when you put X Y input box.</dd>
+  <dt>tree</dt><dd>It shows tree structor of the objects.</dd>
+  <dt>compare</dt><dd>it compares 2 ordinals when you put "X Y" in input box.
+  <dt>dom</dt><dd>It returns dom(X) into output box when you put "X" in input box.</dd>
+  <dt>expand</dt><dd>It returns X[Y] into output box when you put "X Y" in input box.</dd>
   <dt>link</dt><dd>Right click and copy to get parmalink of the notation you input.</dd>
+  <dt>auto save</dt><dd>When you check here and press any button, the URL is saved into your browser history.</dd>
   <div class="example">
   w+w+w+w+1+1+1  (0,0,w) 1 0 3<br>
   (0,0,(0,0,(0,0,(0,0,w))))  (0,0,(0,1,0))<br>
@@ -81,8 +82,8 @@ test
 </textarea>
 </form>
 <address>
-<u>ordex: Ordinal Expander in Javascript version 1.1</u><br>
-Original <a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E3%83%96%E3%83%AD%E3%82%B0:Kanrokoti/%E3%81%8F%E3%81%BE%E3%81%8F%E3%81%BE3%E5%A4%89%E6%95%B0%CF%88">Kuma kuma 3-variables Psi(ja)</a> (<a href="https://googology.wikia.org/wiki/User_blog:Kanrokoti/3_variables_%CF%88_which_is_larger_than_EBOCF">en</a>) was invented by Kanrokoti(<a href="https://googology.wikia.org/wiki/User:Kanrokoti">en</a>/<a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC:Kanrokoti">ja</a>)<br>
+<u>ordex: Ordinal Expander in Javascript version 1.2</u><br>
+Original <a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E3%83%96%E3%83%AD%E3%82%B0:Kanrokoti/%E3%81%8F%E3%81%BE%E3%81%8F%E3%81%BE3%E5%A4%89%E6%95%B0%CF%88">Kuma kuma 3-ary Psi(ja)</a> (<a href="https://googology.wikia.org/wiki/User_blog:Kanrokoti/3_variables_%CF%88_which_is_larger_than_EBOCF">en</a>) was invented by Kanrokoti(<a href="https://googology.wikia.org/wiki/User:Kanrokoti">en</a>/<a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC:Kanrokoti">ja</a>)<br>
 programmed by <a href="https://twitter.com/koteitan">koteitan</a><br>
 Source code is on <a href="https://github.com/koteitan/ordex/">github</a><br>
 </address>
