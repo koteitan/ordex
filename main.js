@@ -5,7 +5,7 @@
 window.onload=function(){
   intext.value = " 0  1 \n w 1 \n w 3 \n w+w 3 \n (0,0,w) 3";
   loadlink();
-  savelink();
+  makelink();
 };
 var loadlink=function(){
   var query=location.search.substr(1);
@@ -18,7 +18,7 @@ var loadlink=function(){
     intext.value=str;
   }
 }
-var savelink=function(){
+var makelink=function(){
   var query="o=";
   var str=intext.value;
   str=str.replace(/^\n*/g, "");
@@ -30,14 +30,22 @@ var savelink=function(){
   str=str.replace(/;\./g, ";");
   str=str.replace(/\.;/g, ";");
   query+=str+"_";
-  document.getElementById("link").href = location.origin+location.pathname+"?"+query;
+  var url = location.origin+location.pathname+"?"+query;
+  document.getElementById("link").href = url;
+  return url;
 }
-
+var autosave=function(){
+  if(autosavecheck.value){
+    var url = makelink();
+    history.pushState(null,null,url);
+  }
+}
 /** parse()
   * @brief parse intext and output result into outtext.
   * @details This function is called by clicking "parse" button.
 */
 var parse=function(){
+  autosave();
   //input
   var mstr=intext.value;
   //split
@@ -72,6 +80,7 @@ var parse=function(){
   * @details This function is called by clicking "tree" button.
 */
 var drawtree=function(){
+  autosave();
   //input
   var mstr=intext.value;
   //split
@@ -105,6 +114,7 @@ var drawtree=function(){
   * @details This function is called by clicking "compare" button.
 */
 var compare=function(){
+  autosave();
   //input
   var mstr=intext.value;
   //split
@@ -142,48 +152,12 @@ var compare=function(){
     outtext.value+="\n";
   }//y
 };
-/** expand()
-  * @brief expand intext X Y and output result X[Y] into outtext.
-  * @details This function is called by clicking "expand" button.
-*/
-var expand=function(){
-  //input
-  var mstr=intext.value;
-  //split
-  var ystr=mstr.split("\n");
-  
-  outtext.value="";
-  for(var y=0;y<ystr.length;y++){
-    //trim
-    var str=ystr[y].replace(/^\s*/g , "" );
-    var str=   str.replace(/\s*$/g , "" );
-    var str=   str.replace(/\s\s*/g, " ");
-    if(str!=""){
-      var xstr=str.split(" ");
-      for(var x=0;x<Math.floor(xstr.length/2);x++){
-        if(str!=""){
-          //parse
-          var a=Kuma3ary.parse(xstr[x*2+0]);
-          var b=Kuma3ary.parse(xstr[x*2+1]);
-          //out string expression
-          outtext.value += a.expand(b).toString(Kuma3ary.toSugar);
-        }
-        outtext.value+="  ";
-      }//x
-      if(xstr.length%2==1){
-        var a=Kuma3ary.parse(xstr[xstr.length-1]);
-        outtext.value+=a.toString(Kuma3ary.toSugar);
-      }
-    }
-    outtext.value+="\n";
-  }//y
-};
-
 /** dom()
   * @brief get dom() of intext and output result into outtext.
   * @details This function is called by clicking "dom" button.
 */
 var dom=function(){
+  autosave();
   //input
   var mstr=intext.value;
   //split
@@ -213,6 +187,46 @@ var dom=function(){
     outtext.value+="\n";
   }//y
 };
+/** expand()
+  * @brief expand intext X Y and output result X[Y] into outtext.
+  * @details This function is called by clicking "expand" button.
+*/
+var expand=function(){
+  autosave();
+  //input
+  var mstr=intext.value;
+  //split
+  var ystr=mstr.split("\n");
+  
+  var outstr="";
+  for(var y=0;y<ystr.length;y++){
+    //trim
+    var str=ystr[y].replace(/^\s*/g , "" );
+    var str=   str.replace(/\s*$/g , "" );
+    var str=   str.replace(/\s\s*/g, " ");
+    if(str!=""){
+      var xstr=str.split(" ");
+      for(var x=0;x<Math.floor(xstr.length/2);x++){
+        if(str!=""){
+          //parse
+          var a=Kuma3ary.parse(xstr[x*2+0]);
+          var b=Kuma3ary.parse(xstr[x*2+1]);
+          //out string expression
+          outstr += a.expand(b).toString(Kuma3ary.toSugar);
+        }
+        outstr+="  ";
+        outtext.value = outstr;
+      }//x
+      if(xstr.length%2==1){
+        var a=Kuma3ary.parse(xstr[xstr.length-1]);
+        outstr+=a.toString(Kuma3ary.toSugar);
+      }
+    }
+    outstr+="\n";
+  }//y
+  outtext.value = outstr;
+};
+
 
 
 /* Those are for debugging */

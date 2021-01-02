@@ -26,12 +26,13 @@ input:<br>
 <textarea id='intext' rows=10 style="width:95%" class='myinput'>
 </textarea><br>
 ↓<br>
+<input type=button id=expandbutton   value='expand'  onclick='javscript:expand();'> 
+<input type=button id=dombutton      value='dom'     onclick='javscript:dom();'> 
+<input type=button id=comparebutton  value='compare' onclick='javscript:compare();'> 
 <input type=button id=parsebutton    value='parse'   onclick='javscript:parse();'> 
 <input type=button id=treebutton     value='tree'    onclick='javscript:drawtree();'> 
-<input type=button id=comparebutton  value='compare' onclick='javscript:compare();'> 
-<input type=button id=dombutton      value='dom'     onclick='javscript:dom();'> 
-<input type=button id=expandbutton   value='expand'  onclick='javscript:expand();'> 
-<a style="font-size:12pt" id="link" href="" onmouseover='javascript:savelink();'>link of this notation</a>
+<a style="font-size:12pt" id="link" href="" onclick='javascript:makelink();' onmouseover='javascript:makelink();'>link of this notation</a>
+<input type=checkbox id=autosavecheck value='autosave' onclick='javscript:autosave();' checked><span style="font-size:12pt">auto save link</span>
 <br>↓<br>
 output:<br>
 <textarea id='outtext' rows=10 style="width:95%" class='myinput'>
