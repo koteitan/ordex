@@ -222,15 +222,16 @@ Kuma3ary.prototype.expand=function(y){
   /* 2-1-3-2     */       else{
   /*             */         var p=x2.dom().a[0]; 
   /*             */         var q=x2.dom().a[1];
-  /*             */         var Gamma=x.expand(y.expand(k0)).a[1];
   /* 2-1-3-2-1   */         if(q.iszero()){
   /* 2-1-3-2-1-1 */           if(!y.iszero() && y.isfinite()){
+  /*             */             var Gamma=x.expand(y.expand(k0)).a[1];
   /*             */             return newk(x1,x2.expand(newk(p.expand(k0), Gamma, k0)),x3);
   /*             */           }else{
   /*             */             return newk(x1,x2.expand(newk(p.expand(k0), q,     k0)),x3);
   /*             */           }
   /* 2-1-3-2-2   */         }else{
   /* 2-1-3-2-2-1 */           if(!y.iszero() && y.isfinite()){
+  /*             */             var Gamma=x.expand(y.expand(k0)).a[1];
   /*             */             return newk(x1,x2.expand(newk(p.expand(k0), q, Gamma)),x3);
   /* 2-1-3-2-2-2 */           }else{
   /*             */             return newk(x1,x2.expand(newk(p.expand(k0), q,    k0)),x3);
@@ -251,19 +252,20 @@ Kuma3ary.prototype.expand=function(y){
   /* 2-4-2       */     else{
                           var P=x3.a[0];
                           var Q=x3.a[1];
-  /*             */       var Gamma=x.expand(y.expand(k0)).a[2];
                           var h=y.toint();
   /* 2-4-2-1     */       if(Q.iszero()){
   /* 2-4-2-1-1   */         if(1<=h && h!=-1){
-  /*             */           return newk(x1,x2,x3.expand(newk(p.expand(k0), Gamma, k0)));
+  /*             */           var Gamma=x.expand(y.expand(k0)).a[2];
+  /*             */           return newk(x1,x2,x3.expand(newk(P.expand(k0), Gamma, k0)));
   /* 2-4-2-1-2   */         }else{
-  /*             */           return newk(x1,x2,x3.expand(newk(p.expand(k0), Q,     k0)));
+  /*             */           return newk(x1,x2,x3.expand(newk(P.expand(k0), Q,     k0)));
   /*             */         }
   /* 2-4-2-2     */       }else{
   /* 2-4-2-2-1   */         if(!y.iszero() && y.isfinite()){
-  /*             */           return newk(x1,x2,x3.expand(newk(p.expand(k0), Q.expand(k0), Gamma)));
+  /*             */           var Gamma=x.expand(y.expand(k0)).a[2];
+  /*             */           return newk(x1,x2,x3.expand(newk(P.expand(k0), Q.expand(k0), Gamma)));
   /* 2-1-3-2-2   */         }else{
-  /*             */           return newk(x1,x2,x3.expand(newk(p.expand(k0), Q.expand(k0),    k0)));
+  /*             */           return newk(x1,x2,x3.expand(newk(P.expand(k0), Q.expand(k0),    k0)));
   /*             */         }
   /*             */       }
   /*             */     }
@@ -274,7 +276,7 @@ Kuma3ary.prototype.expand=function(y){
                       var xm_y = x.a[m-1].expand(y);
   /* 3-1         */   if(xm_y.iszero() && m==2) return x.a[0];
   /* 3-2         */   if(xm_y.iszero() && m> 2) return x.slice(0,m-1);
-  /* 3-3         */   if(xm_y.isPT  ()        ) return x.slice(0,m-1).addright(x.a[m-1].expand(y));
+  /* 3-3         */   else return x.slice(0,m-1).addright(x.a[m-1].expand(y));
                     }
 }
 
