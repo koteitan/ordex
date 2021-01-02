@@ -27,7 +27,7 @@
 Ordinal = function(t,a){
   // string
   if((typeof t)!="undefined" && t=="s"){
-    var o=Ordinal.parse("s",t);
+    var o=Ordinal.parse(t);
     this.t=o.t;
     this.a=o.a;
     return;
@@ -206,7 +206,8 @@ Ordinal.parse = function(text){
     }
   }
   Ordinal.debug(text, depth, now, "final");//debug
-  return Ordinal.makeobjtree(text, depth, this.prototype.constructor);
+  var retval = Ordinal.makeobjtree(text, depth, this.prototype.constructor);
+  return retval;
 }
 
 /* inner functions -----------------------------*/
@@ -247,11 +248,32 @@ Ordinal.makeobjtree = function(text,depth,Orgtype){
     for(var j=0;j<subdepth.length;j++)subdepth[j]--;
     stack.push(Ordinal.makeobjtree(subtext, subdepth, Orgtype));
   }
+  var o;
   if(type==""){
-    return new Orgtype(text);
+    o = new Orgtype(text);
   }else{
-    return new Orgtype(type, stack);
+    o = new Orgtype(type, stack);
   }
+  o.normalize(); //after normalization
+  return o;
+}
+/** @fn normalize()
+  @brief normalizes x such as (1+1)+(1+1).
+*/
+Ordinal.prototype.normalize = function(){
+  if(this.t!="+"&&this.t!=",") return;
+  
+  for(var i=0;i<this.a.length;i++){
+    //normalize children
+    this.a[i].normalize();
+    //check duplicated tree
+    if(this.t=="+"){
+      if(this.a[i].t=="+"){
+        this.a=[].concat(this.a.slice(0,i), this.a[i].a, this.a.slice(i+1));
+      }
+    }
+  }
+  return this;
 }
 /**@fn o=Ordinal.add(a,b)
  * @brief return new object for a+b.
