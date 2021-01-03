@@ -97,12 +97,17 @@ Kuma3ary.prototype = Object.create(Ordinal.prototype);
 Object.defineProperty(Kuma3ary.prototype, 'constructor', 
   {value:Kuma3ary, enumerable:false, writable:true});
 Kuma3ary.parse     = Ordinal.parse;
-Kuma3ary.normalize = Ordinal.normalize;
 Kuma3ary.add       = Ordinal.add;
 Kuma3ary.cat       = Ordinal.cat;
 /* ----------------------------------------------------- end */
 
-
+Kuma3ary.prototype.normalize = function(){
+  Ordinal.prototype.normalize();
+  if(this.t==","){
+    if(this.a.length==1) this.a=[].concat([Kuma3ary.k0,Kuma3ary.k0],this.a);
+    if(this.a.length==2) this.a=[].concat([Kuma3ary.k0            ],this.a);
+  }
+}
 Kuma3ary.prototype.iszero=function(){return this.eq(k0);}
 Kuma3ary.prototype.isone =function(){return this.eq(k1);}
 Kuma3ary.prototype.isw   =function(){return this.eq(kw);}
@@ -110,7 +115,7 @@ Kuma3ary.prototype.isPT  =function(){return this.t==",";}
 Kuma3ary.prototype.isadd =function(){return this.t=="+";}
 Kuma3ary.prototype.slice =function(s,e){ return new Kuma3ary(this.t, this.a.slice(s,e));}
 Kuma3ary.prototype.eq    =function(x){return Kuma3ary.eq(this,x);}
-Kuma3ary.prototype.lt    =function(x){return Kuma3ary.lessthan(this,x);}
+Kuma3ary.prototype.lt    =function(x){return Kuma3ary.lt(this,x);}
 Kuma3ary.prototype.isfinite=function(){
   if(this.t=="0") return true;
   if(this.t=="+"){
@@ -154,17 +159,17 @@ Kuma3ary.kw=new Kuma3ary("w");
 Kuma3ary.kW=new Kuma3ary("W");
 /* original part -------------------------------------------------------------------------------*/
 
-/** @fn lessthan(x,y)
+/** @fn lt(x,y)
   * @brief compare x and y and returns ordering of them.  
   * @param x = Kuma3ary ordinal notation.
   * @param y = Kuma3ary ordinal notation.
   * @returns = {true:x<y, false:x>=y}.
   * */
-Kuma3ary.lessthan=function(x,y){
+Kuma3ary.lt=function(x,y){
   if(!x instanceof Kuma3ary) throw new Error("x is not Kuma3ary object.");
   if(!y instanceof Kuma3ary) throw new Error("y is not Kuma3ary object.");
   var eq = Kuma3ary.eq;
-  var lt = Kuma3ary.lessthan;
+  var lt = Kuma3ary.lt;
   /* 1       */ if(x.iszero()) return !y.iszero();
   /* 2       */ if(x.isPT  ()){
   /*         */   var x1 = x.a[0]; var x2 = x.a[1]; var x3 = x.a[2];
@@ -201,7 +206,7 @@ Kuma3ary.lessthan=function(x,y){
 }
 
 Kuma3ary.prototype.dom=function(){
-  var lt = Kuma3ary.lessthan;
+  var lt = Kuma3ary.lt;
   var kw = Kuma3ary.kw;
   var k0 = Kuma3ary.k0;
   /*         */ var x  = this;
@@ -228,7 +233,7 @@ Kuma3ary.prototype.dom=function(){
 
 Kuma3ary.prototype.expand=function(y){
   if(!y instanceof Kuma3ary) throw new Error("y is not Kuma3ary object.");
-  var lt = Kuma3ary.lessthan;
+  var lt = Kuma3ary.lt;
   var k0 = Kuma3ary.k0;
   var kw = Kuma3ary.kw;
   var x  = this;
