@@ -3,15 +3,20 @@
   * @details This function is called by loading the window.
 */
 window.onload=function(){
-  intext.value = " 0  1 \n w 1 \n w 3 \n w+w 3 \n (0,0,w) 3";
+  intext.value = " 0  1 \n w 1 \n w 3 \n w+w 3 \n (0,0,w) 3 \n (0,0,(0,W,0)) 3";
   loadlink();
   makelink();
   window.onresize();
 };
 window.onresize = function(){
-  var fixedcol = document.documentElement.clientWidth/4;
-  document.getElementById("inputtd").width  = Math.floor((document.documentElement.clientWidth-fixedcol)/2*0.99);
-  document.getElementById("outputtd").width = Math.floor((document.documentElement.clientWidth-fixedcol)/2*0.99);
+  var clientWidth  = document.documentElement.clientWidth;
+  var clientHeight = document.documentElement.clientHeight;
+  var fixedWidth   = clientWidth /4;
+  var fixedHeight  = clientHeight*0.1;
+  document.getElementById("inputtd" ).width  = Math.floor((clientWidth -fixedWidth )/2*0.99);
+  document.getElementById("outputtd").width  = Math.floor((clientWidth -fixedWidth )/2*0.99);
+  document.getElementById("inputtd" ).height = Math.floor( clientHeight-fixedHeight)*0.5;
+  document.getElementById("outputtd").height = Math.floor( clientHeight-fixedHeight)*0.5;
 //  document.getElementById("intext").width = "100%"
 //  document.getElementById("outtext").width = "100%"
 }    
@@ -37,10 +42,14 @@ var makelink=function(){
   document.title=str;
   return url;
 }
+var prevurl="";
 var autosave=function(){
   if(autosavecheck.value){
     var url = makelink();
-    history.pushState(null,null,url);
+    if(prevurl!=url){
+      history.pushState(null,null,url);
+    }
+    prevurl=url;
   }
 }
 var lastcommand=function(){/* nop */};
@@ -96,6 +105,17 @@ var mainsugar = function(str){
   return str;
 }
 
+var doclear=function(){
+  intext.value ="";
+  outtext.value="";
+  var url=makelink();
+  if(url.match(/^http:\/\//)){
+    url=url.replace(/\/[^\/]*$/,"/");
+  }else{
+    url=url.replace(/\/[^\/]*$/,"/index.html");
+  }
+  history.pushState(null,null,url);
+}
 /** parse()
   * @brief parse intext and output result into outtext.
   * @details This function is called by clicking "parse" button.

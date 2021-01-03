@@ -31,19 +31,25 @@
 
 <td id="inputtd" class="noborder vcenter">
 input:<br>
-<textarea id='intext' style="width:99%" rows=60 class='myinput'></textarea>
+<textarea id='intext' style="width:99%;height:99%" class='myinput'></textarea>
 </td>
 
 <td id="fixedcol1" class="noborder vcenter">→</td>
 
 <td id="fixedcol2" class="noborder" style="vertical-align:center">
 <br><br>
-<input class='mybutton' type=button id=expandbutton   value='expand [ ]'    onclick='javscript:expand();'><br><br>
-<input class='mybutton' type=button id=dombutton      value='dom()'         onclick='javscript:dom();'> <br>
+<input class='mybutton' type=button id=expandbutton   value='expand X[n]'   onclick='javscript:expand();'><br>
+<br>
+<input class='mybutton' type=button id=dombutton      value='dom(X)'        onclick='javscript:dom();'> <br>
 <input class='mybutton' type=button id=comparebutton  value='compare X < Y' onclick='javscript:compare();'> <br>
 <input class='mybutton' type=button id=parsebutton    value='parse X'       onclick='javscript:parse();'> <br>
-<input class='mybutton' type=button id=treebutton     value='tree'          onclick='javscript:drawtree();'> <br>
+<input class='mybutton' type=button id=treebutton     value='tree X'        onclick='javscript:drawtree();'> <br>
+<br>
+<input class='mybutton' type=button id=clearbutton    value='clear'         onclick='javscript:doclear();'> <br>
+<br>
+<br>
 <a style="font-size:12pt" id="link" href="" onclick='javascript:makelink();' onmouseover='javascript:makelink();'>link of this notation</a><br>
+<br>
 <input type=checkbox id=autosavecheck value='autosave' onclick='javscript:autosave();' checked><span style="font-size:12pt">auto save link</span><br><br>
 <span style="font-size:12pt">syntax sugar:</span><br>
 <input type=checkbox id=sugar1check value='sugar1' onclick='javascript:redraw();' checked><span style="font-size:12pt">1=(0,0,0)</span><br>
@@ -59,7 +65,7 @@ input:<br>
 
 <td id="outputtd" class="noborder vcenter">
 output:<br>
-<textarea id='outtext' style="width:99%" rows=60 class='myinput'></textarea>
+<textarea id='outtext' style="width:99%;height:99%" class='myinput'></textarea>
 </td>
 </tr>
 </table>
@@ -69,31 +75,81 @@ output:<br>
   <dt>usage</dt><dd>
 <ul>
   <li>This version can parse/compare/dom/expand the <a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E3%83%96%E3%83%AD%E3%82%B0:Kanrokoti/%E3%81%8F%E3%81%BE%E3%81%8F%E3%81%BE3%E5%A4%89%E6%95%B0%CF%88">Kuma Kuma 3-ary psi notation</a>.</li>
-  <li>Please write ψ_{X1}(X2,X3) as (X1,X2,X3)</li>
-  <li>Syntax sugar 0,1,2,3,4,5,6,7,8,9,w=ω, e=ε<sub>0</sub>, z=ζ<sub>0</sub>, G=Γ<sub>0</sub> and W=Ω are available.</li>
-  <li>Multiple rows give you the multiple result at once.</li>
+  <li>The valid primitive charactors are "0", "(", "," and ")".</li>
+  <li>Write ψ_{X1}(X2,X3) as (X1,X2,X3). For example,
+  <div class="example">
+  0<br>
+  (0,0,0)<br>
+  (0,0,0)+(0,0,0)<br>
+  (0,0,0)+(0,0,0)+(0,0,0)<br>
+  (0,0,(0,0,0))<br>
+  (0,0,(0,0,0))+(0,0,0)<br>
+  (0,0,(0,0,0)+(0,0,0))<br>
+  (0,0,(0,0,(0,0,0)))<br>
+  (0,0,(0,(0,0,0),0))<br>
+  (0,0,((0,0,0),0,0))<br>
+  (0,0,(((0,0,0),0,0),0,0))</div>
+  </li>
+  <li>The syntax sugar 0,1,2,3,4,5,6,7,8,9,w=ω, e=ε<sub>0</sub>, z=ζ<sub>0</sub>, G=Γ<sub>0</sub> and W=Ω are available.</li>
+  <div class="example">
+  5<br>
+  w+4<br>
+  z+z+4<br>
+  (0,0,(0,W,0))
+  </div>
+  <li>Spaces in a line or multiple lines or empty lines give you the multiple result at once. Like this:<br>
+  <div class="example">
+  0 1 2 3&nbsp;w+1&nbsp;&nbsp;&nbsp;&nbsp;w+1+1&nbsp;&nbsp;w+w<br>
+  (0,0,1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(0,0,w)+w<br>
+  <br>
+  (0,0,(0,0,0))+1+1&nbsp;&nbsp;W
+  </div>
+  </li>
 </ul>
 </dd>
-  <dt>parse</dt><dd>It parses ordinal notation. ex.:
-  <div class="example">
-  0 1 2 3 w+1 w+1+1 w+w<br>
-  (0,0,1)<br>
-  (0,0,w)+w<br>
-  (0,0,(0,0,0))+1+1<br>
-  </div></dd>
+  <dt>parse</dt><dd>X returns parsed expression of the ordinal notation X by the system. </dd>
   <dt>tree</dt><dd>It shows tree structor of the objects.</dd>
   <dt>compare</dt><dd>it compares 2 ordinals when you put "X Y" in input box.
   <div class="example">
-  1 w<br>
-  W+w 2<br>
-  </div>
-  <dt>dom</dt><dd>It returns dom(X) into output box when you put "X" in input box.</dd>
-  <dt>expand</dt><dd>It returns X[Y] into output box when you put "X Y" in input box.</dd>
+    3&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;w<br>
+    W+w&nbsp;&nbsp;&nbsp;&nbsp;w+w+w+9<br>
+    1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1<br>
+    ↓<br>
+    3&nbsp;&nbsp;&nbsp;<&nbsp;&nbsp;w<br>
+    W+w&nbsp;>&nbsp;&nbsp;w+w+w+9<br>
+    1&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;1<br>
+  </div></dd>
+  <dt>dom</dt><dd>It returns dom(X) into output box when you put "X" in input box.
   <div class="example">
-  w+w 9<br>
-  (0,0,W) 9<br>
-  </div>
-  <dt>link</dt><dd>Right click and copy to get parmalink of the notation you input.</dd>
+0&nbsp;&nbsp;1&nbsp;&nbsp;3<br>
+w&nbsp;&nbsp;W&nbsp;&nbsp;W+w<br>
+(0,w,0) (0,W,0) (1,0,0)<br>
+↓<br>
+0&nbsp;&nbsp;1&nbsp;&nbsp;1  <br>
+w&nbsp;&nbsp;W&nbsp;&nbsp;w  <br>
+w&nbsp;&nbsp;W&nbsp;&nbsp;(1,0,0)  
+</div></dd>
+  <dt>expand</dt><dd>It returns X[Y] into output box when you put "X Y" in input box.
+  <div class="example">
+    w 3<br>
+    w+5 3<br>
+    (0,0,(0,0,w+5)) 3<br>
+    (0,0,(0,0,w+w+2)) 3<br>
+    (0,0,W) 3<br>
+    (0,0,(0,1,W)) 3<br>
+    (0,0,(0,W,0)) 3<br>
+    (0,0,(W,0,0)) 3<br>
+    ↓<br>
+    3  <br>
+    w+1+1+1+1  <br>
+    (0,0,(0,0,w+1+1+1+1)+(0,0,w+1+1+1+1)+(0,0,w+1+1+1+1))  <br>
+    (0,0,(0,0,w+w+1)+(0,0,w+w+1)+(0,0,w+w+1))  <br>
+    (0,0,(0,0,(0,0,w)))  <br>
+    (0,0,(0,1,(0,0,(0,1,(0,0,(0,1,(0,0,(0,1,1))))))))  <br>
+    (0,0,(0,(0,0,(0,(0,0,(0,e,0)),0)),0))  <br>
+    (0,0,((0,0,((0,0,((0,0,(1,0,0)),0,0)),0,0)),0,0))<br>
+  </div></dd>
+  <dt>link</dt><dd>Right click and copy this to get and share the parmalink of the notation you input.</dd>
   <dt>auto save</dt><dd>When you check here and press any button, the URL is saved into your browser history.</dd>
   <dt>example</dt><dd>
   <ul><li>K. Kanro, "<a href='https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E3%83%96%E3%83%AD%E3%82%B0:Kanrokoti/%E3%81%8F%E3%81%BE%E3%81%8F%E3%81%BE3%E5%A4%89%E6%95%B0%CF%88%E5%B1%95%E9%96%8B%E3%83%81%E3%83%BC%E3%83%88%E3%82%B7%E3%83%BC%E3%83%88'>Kuma Kuma 3-ary Psi Cheatsheet</a>", Googology Wiki, User blog, Oct. 21, 2020. → <a href="?o=0.3;(0,0,0).3;(0,0,0)+(0,0,0).3;(0,0,0)+(0,0,0)+(0,0,0).3;(0,0,(0,0,0)).3;(0,0,(0,0,0)+(0,0,0)).3;(0,0,(0,0,(0,0,0))).3;(0,0,(0,1,0)).3;;(0,0,(0,1,0)+(0,0,(0,1,0))).3;(0,0,(0,1,0)+(0,1,0)).3;(0,0,(0,1,(0,1,0))).3;(0,0,(0,1,(0,1,0)+(0,1,0))).3;(0,0,(0,1,(0,1,(0,1,0)))).3;(0,0,(0,2,0)).3;;(0,0,(0,2,0)+(0,1,0)).3;(0,0,(0,2,0)+(0,1,(0,2,0))).3;(0,0,(0,2,0)+(0,2,0)).3;(0,0,(0,2,(0,0,(0,1,0)))).3;(0,0,(0,2,(0,0,(0,2,0)))).3;(0,0,(0,2,(0,1,0))).3;(0,0,(0,3,0)).3;;(0,0,(0,(0,0,(0,0,0))+(0,0,0),0)).3;(0,0,(0,w+1,0)+(0,1,0)).3;(0,0,(1,0,0)).3;;(0,0,(1,0,0)+(0,(1,0,0),(1,0,0))).3;(0,0,(1,0,0)+(1,0,0)).3;(0,0,(1,0,(0,0,0))).3;(0,0,(1,0,(0,1,0))).3;(0,0,(1,0,(1,0,0))).3;(0,0,(1,1,0)).3;(0,0,(1,(0,1,0),0)).3;(0,0,(1,(1,0,0),0)).3;(0,0,(2,0,0)).3;;((0,0,((0,1,0),0,0)).3_">result</a></li>
@@ -105,12 +161,12 @@ output:<br>
 </dl>
 <br>
 <br>
-<textarea id='debug' rows=50 cols=50 class='myinput' style='display:none'>
+<textarea id='debug' class='myinput' style='display:none'>
 test
 </textarea>
 </form>
 <address>
-<u>ordex: Ordinal Expander in Javascript version 1.5</u><br>
+<u>ordex: Ordinal Expander in Javascript version 1.6</u><br>
 Original <a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E3%83%96%E3%83%AD%E3%82%B0:Kanrokoti/%E3%81%8F%E3%81%BE%E3%81%8F%E3%81%BE3%E5%A4%89%E6%95%B0%CF%88">Kuma kuma 3-ary Psi(ja)</a> (<a href="https://googology.wikia.org/wiki/User_blog:Kanrokoti/3_variables_%CF%88_which_is_larger_than_EBOCF">en</a>) was invented by Kanrokoti(<a href="https://googology.wikia.org/wiki/User:Kanrokoti">en</a>/<a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC:Kanrokoti">ja</a>)<br>
 programmed by <a href="https://twitter.com/koteitan">koteitan</a><br>
 Source code is on <a href="https://github.com/koteitan/ordex/">github</a><br>
