@@ -3,58 +3,74 @@
 <meta http-equiv="Content-type" content="text/html; charset=utf8">
 <meta http-equiv="Content-Style-Type" content="text/css">
 <style><!--
-  body{font-family:Segoe UI;font-size:12pt}
-  a{color:black;border-style:none;text-decoration:underline}
+  body{font-family:Segoe UI;font-size:12pt;background-color:#DDDDDD}
+  a{color:black;border-style:none;text-decoration:underline;}
   a:link{color:#000055;border-style:none;text-decoration:underline}
   a:visited{color:#0000CC;border-style:none;text-decoration:underline}
   a:hover{color:#8888CC;border-color:none;text-decoration:underline}
   address{text-align:right;font-style:normal;font-size:12pt}
-  .myinput{border-style:solid;border-color:black;border-width:1px;background-color:white;color:black;font-family:ＭＳ ゴシック;font-size:10pt;padding:2px}
-  .example{border-style:none;border-color:black;border-width:1px;background-color:white;color:black;font-family:ＭＳ ゴシック;font-size:10pt;padding:10px}
-  .tdbutton{border-width:1px;border-style:solid;border-color:white;height:30px;width:30px}
+  .myinput{border-style:solid;border-color:black;border-width:1px;color:black;font-family:ＭＳ ゴシック;font-size:10pt;padding:2px;white-space:nowrap;}
+  .example{border-style:none;border-color:black;border-width:1px;color:black;font-family:ＭＳ ゴシック;font-size:10pt;padding:10px}
+  .tdbutton{border-width:1px;border-style:solid;height:30px;width:30px}
   hr{border-style:solid}
-  .console{font-family:MS Gothic;color:white;background-color:black}
+  .console{font-family:MS Gothic;background-color:black}
   h1{margin-top:1pt;margin-bottom:1pt;}
   ul{margin-top:1pt;margin-bottom:1pt;}
   dt{font-weight:bold;font-size:12pt}
   li{font-size:12pt}
   dd{font-size:12pt}
+  .noborder{border-style:none}
+  .vcenter{vertical-align:center}
+  .mybutton{width:200px}
   --></style>
 </head>
 <body>
 <h1>ordex: Ordinal Expander in JavaScript</h1>
 <form id='form'>
+<table class="noborder vcenter"><tr class="noborder vcenter">
+
+<td id="inputtd" class="noborder vcenter">
 input:<br>
-<textarea id='intext' rows=10 style="width:95%" class='myinput'>
-</textarea><br>
-↓<br>
-<input type=button id=expandbutton   value='expand'  onclick='javscript:expand();'> 
-<input type=button id=dombutton      value='dom'     onclick='javscript:dom();'> 
-<input type=button id=comparebutton  value='compare' onclick='javscript:compare();'> 
-<input type=button id=parsebutton    value='parse'   onclick='javscript:parse();'> 
-<input type=button id=treebutton     value='tree'    onclick='javscript:drawtree();'> 
-<a style="font-size:12pt" id="link" href="" onclick='javascript:makelink();' onmouseover='javascript:makelink();'>link of this notation</a>
-<input type=checkbox id=autosavecheck value='autosave' onclick='javscript:autosave();' checked><span style="font-size:12pt">auto save link</span><br>
+<textarea id='intext' style="width:99%" rows=60 class='myinput'></textarea>
+</td>
+
+<td id="fixedcol1" class="noborder vcenter">→</td>
+
+<td id="fixedcol2" class="noborder" style="vertical-align:center">
+<br><br>
+<input class='mybutton' type=button id=expandbutton   value='expand [ ]'    onclick='javscript:expand();'><br><br>
+<input class='mybutton' type=button id=dombutton      value='dom()'         onclick='javscript:dom();'> <br>
+<input class='mybutton' type=button id=comparebutton  value='compare X < Y' onclick='javscript:compare();'> <br>
+<input class='mybutton' type=button id=parsebutton    value='parse X'       onclick='javscript:parse();'> <br>
+<input class='mybutton' type=button id=treebutton     value='tree'          onclick='javscript:drawtree();'> <br>
+<a style="font-size:12pt" id="link" href="" onclick='javascript:makelink();' onmouseover='javascript:makelink();'>link of this notation</a><br>
+<input type=checkbox id=autosavecheck value='autosave' onclick='javscript:autosave();' checked><span style="font-size:12pt">auto save link</span><br><br>
 <span style="font-size:12pt">syntax sugar:</span><br>
-<input type=checkbox id=sugar1check value='sugar1' onclick='javascript:redraw();' checked><span style="font-size:12pt">1=(0,0,0)</span>
-<input type=checkbox id=sugarNcheck value='sugarN' onclick='javascript:redraw();' checked><span style="font-size:12pt">n=(0,0,0)+...n's...+(0,0,0)</span>
-<input type=checkbox id=sugarwcheck value='sugarw' onclick='javascript:redraw();' checked><span style="font-size:12pt">w=ω=(0,0,(0,0,0))</span>
+<input type=checkbox id=sugar1check value='sugar1' onclick='javascript:redraw();' checked><span style="font-size:12pt">1=(0,0,0)</span><br>
+<input type=checkbox id=sugarNcheck value='sugarN' onclick='javascript:redraw();' checked><span style="font-size:12pt">n=(0,0,0)+...n's...+(0,0,0)</span><br>
+<input type=checkbox id=sugarwcheck value='sugarw' onclick='javascript:redraw();' checked><span style="font-size:12pt">w=ω=(0,0,(0,0,0))</span><br>
 <input type=checkbox id=sugarWcheck value='sugarW' onclick='javascript:redraw();' checked><span style="font-size:12pt">W=Ω=(0,(0,0,0),0)</span><br>
-<input type=checkbox id=sugarecheck value='sugare' onclick='javascript:redraw();' checked><span style="font-size:12pt">e=ε<sub>0</sub>=(0,0,W)</span>
-<input type=checkbox id=sugarzcheck value='sugarz' onclick='javascript:redraw();' checked><span style="font-size:12pt">z=ζ<sub>0</sub>=(0,0,(0,1,W))</span>
-<input type=checkbox id=sugarGcheck value='sugarG' onclick='javascript:redraw();' checked><span style="font-size:12pt">G=Γ<sub>0</sub>=(0,0,(0,1,(0,1,W)))</span>
-<br>↓<br>
+<input type=checkbox id=sugarecheck value='sugare' onclick='javascript:redraw();' checked><span style="font-size:12pt">e=ε<sub>0</sub>=(0,0,W)</span><br>
+<input type=checkbox id=sugarzcheck value='sugarz' onclick='javascript:redraw();' checked><span style="font-size:12pt">z=ζ<sub>0</sub>=(0,0,(0,1,W))</span><br>
+<input type=checkbox id=sugarGcheck value='sugarG' onclick='javascript:redraw();' checked><span style="font-size:12pt">G=Γ<sub>0</sub>=(0,0,(0,1,(0,1,W)))</span><br>
+</td>
+
+<td id="fixedcol3" class="noborder vcenter">→</td>
+
+<td id="outputtd" class="noborder vcenter">
 output:<br>
-<textarea id='outtext' rows=10 style="width:95%" class='myinput'>
-</textarea>
-<!img id='outimg' style='border-style:solid;border-width:1px'>
+<textarea id='outtext' style="width:99%" rows=60 class='myinput'></textarea>
+</td>
+</tr>
+</table>
+<img id='outimg' style='display:none;border-style:solid;border-width:1px'><br>
 <canvas id='outcanvas' style='display:none'></canvas><br>
 <dl>
   <dt>usage</dt><dd>
 <ul>
   <li>This version can parse/compare/dom/expand the <a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E3%83%96%E3%83%AD%E3%82%B0:Kanrokoti/%E3%81%8F%E3%81%BE%E3%81%8F%E3%81%BE3%E5%A4%89%E6%95%B0%CF%88">Kuma Kuma 3-ary psi notation</a>.</li>
   <li>Please write ψ_{X1}(X2,X3) as (X1,X2,X3)</li>
-  <li>Sugar syntax 0,1,2,3,4,5,6,7,8,9,w is available.</li>
+  <li>Syntax sugar 0,1,2,3,4,5,6,7,8,9,w=ω, e=ε<sub>0</sub>, z=ζ<sub>0</sub>, G=Γ<sub>0</sub> and W=Ω are available.</li>
   <li>Multiple rows give you the multiple result at once.</li>
 </ul>
 </dd>
@@ -94,7 +110,7 @@ test
 </textarea>
 </form>
 <address>
-<u>ordex: Ordinal Expander in Javascript version 1.4</u><br>
+<u>ordex: Ordinal Expander in Javascript version 1.5</u><br>
 Original <a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC%E3%83%96%E3%83%AD%E3%82%B0:Kanrokoti/%E3%81%8F%E3%81%BE%E3%81%8F%E3%81%BE3%E5%A4%89%E6%95%B0%CF%88">Kuma kuma 3-ary Psi(ja)</a> (<a href="https://googology.wikia.org/wiki/User_blog:Kanrokoti/3_variables_%CF%88_which_is_larger_than_EBOCF">en</a>) was invented by Kanrokoti(<a href="https://googology.wikia.org/wiki/User:Kanrokoti">en</a>/<a href="https://googology.wikia.org/ja/wiki/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC:Kanrokoti">ja</a>)<br>
 programmed by <a href="https://twitter.com/koteitan">koteitan</a><br>
 Source code is on <a href="https://github.com/koteitan/ordex/">github</a><br>

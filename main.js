@@ -6,7 +6,15 @@ window.onload=function(){
   intext.value = " 0  1 \n w 1 \n w 3 \n w+w 3 \n (0,0,w) 3";
   loadlink();
   makelink();
+  window.onresize();
 };
+window.onresize = function(){
+  var fixedcol = document.documentElement.clientWidth/4;
+  document.getElementById("inputtd").width  = Math.floor((document.documentElement.clientWidth-fixedcol)/2*0.99);
+  document.getElementById("outputtd").width = Math.floor((document.documentElement.clientWidth-fixedcol)/2*0.99);
+//  document.getElementById("intext").width = "100%"
+//  document.getElementById("outtext").width = "100%"
+}    
 var loadlink=function(){
   var query=location.search.substr(1);
   if(query.length>0){
