@@ -109,7 +109,7 @@ var doclear=function(){
   intext.value ="";
   outtext.value="";
   var url=makelink();
-  if(url.match(/^http:\/\//)){
+  if(url.match(/^https:\/\//) || url.match(/^http:\/\//)){
     url=url.replace(/\/[^\/]*$/,"/");
   }else{
     url=url.replace(/\/[^\/]*$/,"/index.html");
