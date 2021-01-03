@@ -210,8 +210,8 @@ Kuma3ary.prototype.dom=function(){
   /*         */   var x1 = x.a[0]; var x2 = x.a[1]; var x3 = x.a[2];
   /* 2-1     */   if(x3.dom().iszero()){
   /* 2-1-1   */     if(      x2.dom().iszero()){
-  /* 2-1-1-1 */       if(x1.dom().iszero() || x1.dom().isone()){return x  ;}
-  /* 2-1-1-2 */       else                                     {return x_1;}
+  /* 2-1-1-1 */       if(x1.dom().iszero() || x1.dom().isone()){return x ;}
+  /* 2-1-1-2 */       else                                     {return x1;}
   /* 2-1-2   */     }else if(x2.dom().isone()){return x;}
   /* 2-1-3   */     else{
   /* 2-1-3-1 */       if(lt(x2.dom(),x)){return x2.dom();}
