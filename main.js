@@ -185,8 +185,8 @@ var compare=function(){
           var b=Kuma3ary.parse(xstr[x*2+1]);
           //out string expression
           var c;
-          if     (Kuma3ary.lessthan(a,b)) c = " < ";
-          else if(Kuma3ary.equal   (a,b)) c = " = ";
+          if     (Kuma3ary.lt(a,b)) c = " < ";
+          else if(Kuma3ary.eq(a,b)) c = " = ";
           else                            c = " > ";
           outtext.value+=a.toString(mainsugar);
           outtext.value+=c;
