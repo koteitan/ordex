@@ -419,7 +419,58 @@ Kuma3ary.prototype.expand=function(Y){
                     }
 }
 
-
+Kuma3ary.prototype.countzero=function(){
+  var retval=0;
+  if(this.iszero()) return 1;
+  else{
+    for(var i=0;i<this.a.length;i++) retval += this.a[i].countzero();
+  }
+}
+Kuma3ary.prototype.isstd=function(){
+  var X=this;
+  var lt=Kuma3ary.lt;
+  var lt=Kuma3ary.eq;
+  if(X.iszero())return true;
+  else if(X.isPT()){
+    /* make S minimum (0,0,C) which S<X 
+       C=((((...(0,0,0),0,0),0,0)...),0,0) */
+    var C=Kuma3ary.k0;
+    var S;
+    while(1){
+      S=new Kuma3ary(",",[0,0,C]);
+      if(lt(X,S)){
+        break;
+      }
+      C=new Kuma3ary(",",[C,0,0]); //upgrade C
+    }
+    if(eq(S,X)) return true;
+    
+    /* apply [0] to S while X.countzero()<S.countzero() */
+    Xcountzero = X.countzero();
+    while(Xcountzero<S.countzero()){
+      S=S.expand(Kuma3ary.k0);
+    }
+    if(eq(S,X)) return true;
+    
+    
+    L=L.expand(n);
+    var n=0;
+    var L2=L.expand(n);
+    while(lt(L2,X)){
+      n++;
+      L2=L.expand(n);
+    }
+    if(X.equal(L2))return true;
+    L.expand(n+1)
+    
+  }
+  else{ /* + */
+    for(var i=0;i<X.a.length-1;i++){
+      if(lt(X.a[i],X.a[i+1])return false;
+    }
+    return true;
+  }
+}
 
 
 
