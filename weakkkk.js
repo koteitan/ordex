@@ -1,4 +1,4 @@
-/* @fn new Kuma3ary(t,a)
+/* @fn new WeakKkk(t,a)
  * @brief initialize a new object for kuma kuma 3-ary Psi by t and a.
  * @param t = {"0", "1", "2", ... , "9", "w","+",","} = initialize type
  *  When t = "0" -- "9", the object is initialized as the natural number.
@@ -7,7 +7,7 @@
  *  When t = "," and a=[a0,a1,...,aN], the object is initialized as the ordinal which indicates (a0,a1,a2,...,aN).
  * @param a = parameter set for "+" and ",". see reference for t.
  */
-Kuma3ary = function(t,a){
+WeakKkk = function(t,a){
   /* programmer memo: Define conversion from suger syntax to the object here. */
   switch(t){
     case "0":
@@ -16,27 +16,27 @@ Kuma3ary = function(t,a){
     return;
     case "1":
       this.t=",";
-      this.a=[new Kuma3ary("0"), new Kuma3ary("0"), new Kuma3ary("0")];
+      this.a=[new WeakKkk("0"), new WeakKkk("0")];
     return;
     case "w":
       this.t=",";
-      this.a=[new Kuma3ary("0"), new Kuma3ary("0"), new Kuma3ary("1")];
+      this.a=[new WeakKkk("0"), new WeakKkk("1")];
     return;
     case "W":
       this.t=",";
-      this.a=[new Kuma3ary("0"), new Kuma3ary("1"), new Kuma3ary("0")];
+      this.a=[new WeakKkk("1"), new WeakKkk("0")];
     return;
     case "e":
       this.t=",";
-      this.a=[new Kuma3ary("0"), new Kuma3ary("0"), new Kuma3ary("W")];
+      this.a=[new WeakKkk("0"), new WeakKkk("W")];
     return;
     case "z":
-      var k=Kuma3ary.parse("(0,0,(0,1,W))");
+      var k=WeakKkk.parse("(0,(1,W))");
       this.t=k.t;
       this.a=k.a;
     return;
     case "G":
-      var k=Kuma3ary.parse("(0,0,(0,1,(0,1,W)))");
+      var k=WeakKkk.parse("(0,(1,(1,W)))");
       this.t=k.t;
       this.a=k.a;
     return;
@@ -47,7 +47,7 @@ Kuma3ary = function(t,a){
     this.t="+";
     this.a=new Array(parseInt(t));
     for(var i=0;i<this.a.length;i++){
-      this.a[i]=new Kuma3ary("1");
+      this.a[i]=new WeakKkk("1");
     }
     return;
   }
@@ -62,61 +62,52 @@ Kuma3ary = function(t,a){
   }
 }
 
-/* @fn Kuma3ary.toSugar
+/* @fn WeakKkk.toSugar
  * @brief Callback for sugar for toString(sugar). 
- * @detail When you use kuma.toString(), if you add the function for the parameter of toString() like kuma.toString(Kuma3ary.toSugar), toString will become to use the sugar syntax defined in the function. 
+ * @detail When you use kuma.toString(), if you add the function for the parameter of toString() like kuma.toString(WeakKkk.toSugar), toString will become to use the sugar syntax defined in the function. 
  * @param str = input string from toString().
  * @returns str = modified string which is finally output by toString(). */
-Kuma3ary.toSugar = function(str){
+WeakKkk.toSugar = function(str){
   /* programmer memo: Define conversion from the object to the suger syntax here. */
   switch(str){
-    case "(0)": case "(0,0)": case "(0,0,0)":
+    case "(0,0)":
     return "1";
     
-    case "(1)": case "(0,0,1)": case "(0,0,1)":
+    case "(0,1)":
     return "w";
     
-    case "(1,0)": case "(0,1,0)":
+    case "(1,0)":
     return "W";
-    
-    case "(0,W)": case "(0,0,W)":
-    return "e";
-    
-    case "(0,(0,1,W))": case "(0,0,(0,1,W))":
-    return "z";
-    
-    case "(0,(0,1,(0,1,W)))": case "(0,0,(0,1,(0,1,W)))":
-    return "G";
   }
   return str;
 }
 
-/* programmer memo: Please put the code as following to make the type Kuma3ary the extension of the type Ordinal. */
+/* programmer memo: Please put the code as following to make the type WeakKkk the extension of the type Ordinal. */
 /* ------------------0---------------------------------- begin */
-Kuma3ary.prototype = Object.create(Ordinal.prototype);
-Object.defineProperty(Kuma3ary.prototype, 'constructor', 
-  {value:Kuma3ary, enumerable:false, writable:true});
-Kuma3ary.parse     = Ordinal.parse;
-Kuma3ary.add       = Ordinal.add;
-Kuma3ary.cat       = Ordinal.cat;
+WeakKkk.prototype = Object.create(Ordinal.prototype);
+Object.defineProperty(WeakKkk.prototype, 'constructor', 
+  {value:WeakKkk, enumerable:false, writable:true});
+WeakKkk.parse     = Ordinal.parse;
+WeakKkk.add       = Ordinal.add;
+WeakKkk.cat       = Ordinal.cat;
 /* ----------------------------------------------------- end */
 
-Kuma3ary.prototype.normalize = function(){
+WeakKkk.prototype.normalize = function(){
   Ordinal.prototype.normalize();
   if(this.t==","){
-    if(this.a.length==1) this.a=[].concat([Kuma3ary.k0,Kuma3ary.k0],this.a);
-    if(this.a.length==2) this.a=[].concat([Kuma3ary.k0            ],this.a);
+    if(this.a.length==1) this.a=[].concat([WeakKkk.k0,WeakKkk.k0],this.a);
+    if(this.a.length==2) this.a=[].concat([WeakKkk.k0            ],this.a);
   }
 }
-Kuma3ary.prototype.iszero=function(){return this.eq(k0);}
-Kuma3ary.prototype.isone =function(){return this.eq(k1);}
-Kuma3ary.prototype.isw   =function(){return this.eq(kw);}
-Kuma3ary.prototype.isPT  =function(){return this.t==",";}
-Kuma3ary.prototype.isadd =function(){return this.t=="+";}
-Kuma3ary.prototype.slice =function(s,e){ return new Kuma3ary(this.t, this.a.slice(s,e));}
-Kuma3ary.prototype.eq    =function(x){return Kuma3ary.eq(this,x);}
-Kuma3ary.prototype.lt    =function(x){return Kuma3ary.lt(this,x);}
-Kuma3ary.prototype.isfinite=function(){
+WeakKkk.prototype.iszero=function(){return this.eq(k0);}
+WeakKkk.prototype.isone =function(){return this.eq(k1);}
+WeakKkk.prototype.isw   =function(){return this.eq(kw);}
+WeakKkk.prototype.isPT  =function(){return this.t==",";}
+WeakKkk.prototype.isadd =function(){return this.t=="+";}
+WeakKkk.prototype.slice =function(s,e){ return new WeakKkk(this.t, this.a.slice(s,e));}
+WeakKkk.prototype.eq    =function(x){return WeakKkk.eq(this,x);}
+WeakKkk.prototype.lt    =function(x){return WeakKkk.lt(this,x);}
+WeakKkk.prototype.isfinite=function(){
   if(this.t=="0") return true;
   if(this.t=="+"){
     for(var i=0;i<this.a.length;i++){
@@ -127,7 +118,7 @@ Kuma3ary.prototype.isfinite=function(){
     return this.isone();
   }
 }
-Kuma3ary.prototype.toint=function(){
+WeakKkk.prototype.toint=function(){
   switch(this.t){
     case "0": return 0;
     case "+": return this.isfinite()?this.a.length:-1;
@@ -135,34 +126,34 @@ Kuma3ary.prototype.toint=function(){
     default : return -1;
   }
 }
-Kuma3ary.prototype.mul=function(n){
-  if(n==0)return Kuma3ary.k0;
+WeakKkk.prototype.mul=function(n){
+  if(n==0)return WeakKkk.k0;
   if(n==1)return this;
   var a=new Array(n);
   for(var i=0;i<a.length;i++) a[i]=this;
-  return new Kuma3ary("+",a);
+  return new WeakKkk("+",a);
 }
 
-Kuma3ary.eq=function(x,y){
+WeakKkk.eq=function(x,y){
   if(x.t!=y.t) return false;
   if(x.a instanceof Array && y.a instanceof Array){
     if(x.a.length!=y.a.length) return false;
     for(var i=0;i<x.a.length;i++){
-      if(!Kuma3ary.eq(x.a[i],y.a[i])) return false;
+      if(!WeakKkk.eq(x.a[i],y.a[i])) return false;
     }
   }
   return true;
 }
-Kuma3ary.k0=new Kuma3ary("0");
-Kuma3ary.k1=new Kuma3ary("1");
-Kuma3ary.kw=new Kuma3ary("w");
-Kuma3ary.kW=new Kuma3ary("W");
+WeakKkk.k0=new WeakKkk("0");
+WeakKkk.k1=new WeakKkk("1");
+WeakKkk.kw=new WeakKkk("w");
+WeakKkk.kW=new WeakKkk("W");
 /* original part -------------------------------------------------------------------------------*/
 
 /** @fn lt(x,y)
   * @brief compare x and y and returns ordering of them.  
-  * @param x = Kuma3ary ordinal notation.
-  * @param y = Kuma3ary ordinal notation.
+  * @param x = WeakKkk ordinal notation.
+  * @param y = WeakKkk ordinal notation.
   * @returns = {true:x<y, false:x>=y}.
   * */
 /*-----------------------------------------------------------------------------
@@ -171,11 +162,11 @@ Kanrokoti, "くまくま3変数ψ", 巨大数研究 Wiki, 2021-01-03T22:42:55.
   ---------------------------------------------------------------------------*/
 /* 順序 ここでは、表記間の大小関係を定義する。 */
 /* X,Y∈Tに対し、2項関係X<Yを以下のように再帰的に定める: */
-Kuma3ary.lt=function(X,Y){
-  if(!X instanceof Kuma3ary) throw new Error("X is not Kuma3ary object.");
-  if(!Y instanceof Kuma3ary) throw new Error("Y is not Kuma3ary object.");
-  var eq = Kuma3ary.eq;
-  var lt = Kuma3ary.lt;
+WeakKkk.lt=function(X,Y){
+  if(!X instanceof WeakKkk) throw new Error("X is not WeakKkk object.");
+  if(!Y instanceof WeakKkk) throw new Error("Y is not WeakKkk object.");
+  var eq = WeakKkk.eq;
+  var lt = WeakKkk.lt;
   /* 1.         もしX=0ならば、X<Yは  Y≠0と同値である。 */
   /* 1       */ if(X.iszero()) return !Y.iszero();
   /* 2.         ここでX=ψ_{X_1}(X_2,X_3)を満たすX_1,X_2,X_3∈Tが存在するとする。 */
@@ -232,11 +223,11 @@ Kuma3ary.lt=function(X,Y){
 
 /* 共終数 */
 /* ここでは、共終数という概念を定義する。 */
-Kuma3ary.prototype.dom=function(){
+WeakKkk.prototype.dom=function(){
   var dom = function(A){return A.dom();};
-  var lt = Kuma3ary.lt;
-  var kw = Kuma3ary.kw;
-  var k0 = Kuma3ary.k0;
+  var lt = WeakKkk.lt;
+  var kw = WeakKkk.kw;
+  var k0 = WeakKkk.k0;
   var X  = this;
   /* 1.      もし  X=0ならば、dom(X) = 0である。 */
   /* 1       */ if(X.iszero()) return k0;
@@ -283,14 +274,14 @@ Kuma3ary.prototype.dom=function(){
 
 /* 基本列 */
 /* ここでは、基本列という概念を先で定義した共終数を用いて定義する。 */
-Kuma3ary.prototype.expand=function(Y){
-  if(!Y instanceof Kuma3ary) throw new Error("Y is not Kuma3ary object.");
+WeakKkk.prototype.expand=function(Y){
+  if(!Y instanceof WeakKkk) throw new Error("Y is not WeakKkk object.");
   var dom = function(A){return A.dom();};
-  var lt = Kuma3ary.lt;
-  var k0 = Kuma3ary.k0;
-  var kw = Kuma3ary.kw;
+  var lt = WeakKkk.lt;
+  var k0 = WeakKkk.k0;
+  var kw = WeakKkk.kw;
   var X  = this;
-  var newk = function(X_1,X_2,X_3){return new Kuma3ary(",",[X_1,X_2,X_3]);};
+  var newk = function(X_1,X_2,X_3){return new WeakKkk(",",[X_1,X_2,X_3]);};
   /* 1.            もしX=0ならば、    X[Y]=0である。 */
                     if(X.iszero()) return k0;
   /* 2. ここでX=ψ_{X_1}(X_2,X_3)を満たすX_1,X_2,X_3∈Tが存在するとする。 */
@@ -419,36 +410,36 @@ Kuma3ary.prototype.expand=function(Y){
                     }
 }
 
-Kuma3ary.prototype.countzero=function(){
+WeakKkk.prototype.countzero=function(){
   var retval=0;
   if(this.iszero()) return 1;
   else{
     for(var i=0;i<this.a.length;i++) retval += this.a[i].countzero();
   }
 }
-Kuma3ary.prototype.isstd=function(){
+WeakKkk.prototype.isstd=function(){
   var X=this;
-  var lt=Kuma3ary.lt;
-  var lt=Kuma3ary.eq;
+  var lt=WeakKkk.lt;
+  var lt=WeakKkk.eq;
   if(X.iszero())return true;
   else if(X.isPT()){
     /* make S minimum (0,0,C) which S<X 
        C=((((...(0,0,0),0,0),0,0)...),0,0) */
-    var C=Kuma3ary.k0;
+    var C=WeakKkk.k0;
     var S;
     while(1){
-      S=new Kuma3ary(",",[0,0,C]);
+      S=new WeakKkk(",",[0,0,C]);
       if(lt(X,S)){
         break;
       }
-      C=new Kuma3ary(",",[C,0,0]); //upgrade C
+      C=new WeakKkk(",",[C,0,0]); //upgrade C
     }
     if(eq(S,X)) return true;
     
     /* apply [0] to S while X.countzero()<S.countzero() */
     Xcountzero = X.countzero();
     while(Xcountzero<S.countzero()){
-      S=S.expand(Kuma3ary.k0);
+      S=S.expand(WeakKkk.k0);
     }
     if(eq(S,X)) return true;
     
