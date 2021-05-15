@@ -43,11 +43,19 @@ Kuma3ary = function(t,a){
     default:
     break;
   }
-  if(t!="" && isFinite(t)){ //nat
-    this.t="+";
-    this.a=new Array(parseInt(t));
-    for(var i=0;i<this.a.length;i++){
-      this.a[i]=new Kuma3ary("1");
+  if(isFinite(t)){ //nat
+    if(t==0){
+      this.t="0";
+      this.a=null;
+    }else if(t==1){
+      this.t=",";
+      this.a=[new Kuma3ary("0"), new Kuma3ary("0"), new Kuma3ary("0")];
+    }else{
+      this.t="+";
+      this.a=new Array(parseInt(t));
+      for(var i=0;i<this.a.length;i++){
+        this.a[i]=new Kuma3ary("1");
+      }
     }
     return;
   }
@@ -108,9 +116,9 @@ Kuma3ary.prototype.normalize = function(){
     if(this.a.length==2) this.a=[].concat([Kuma3ary.k0            ],this.a);
   }
 }
-Kuma3ary.prototype.iszero=function(){return this.eq(k0);}
-Kuma3ary.prototype.isone =function(){return this.eq(k1);}
-Kuma3ary.prototype.isw   =function(){return this.eq(kw);}
+Kuma3ary.prototype.iszero=function(){return this.eq(Kuma3ary.k0);}
+Kuma3ary.prototype.isone =function(){return this.eq(Kuma3ary.k1);}
+Kuma3ary.prototype.isw   =function(){return this.eq(Kuma3ary.kw);}
 Kuma3ary.prototype.isPT  =function(){return this.t==",";}
 Kuma3ary.prototype.isadd =function(){return this.t=="+";}
 Kuma3ary.prototype.slice =function(s,e){ return new Kuma3ary(this.t, this.a.slice(s,e));}
