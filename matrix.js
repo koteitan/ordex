@@ -101,7 +101,7 @@ var mul = function(a0, a1){
     }
   }
 };
-/* ‚RŸŒ³ƒxƒNƒgƒ‹‚ÌƒhƒbƒgÏ aEb */
+/* ï¼“æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ«ã®ãƒ‰ãƒƒãƒˆç© aãƒ»b */
 var dot=function(a, b){
   var c = 0;
   for(var i=0;i<a.length;i++){
@@ -166,7 +166,7 @@ Array.prototype.toString = function(){
   str += "]";
   return str;
 };
-/* ‚RŸŒ³ƒxƒNƒgƒ‹ a, b ‚ÌƒNƒƒXÏ a~b */
+/* ï¼“æ¬¡å…ƒãƒ™ã‚¯ãƒˆãƒ« a, b ã®ã‚¯ãƒ­ã‚¹ç© aÃ—b */
 var cross=function(a, b){
   return [
     a[1]*b[2] - a[2]*b[1],
@@ -224,13 +224,13 @@ var normalize=function(a){
   }
   return b;
 };
-  /* ”CˆÓ²‰ñ“]s—ñ R(A,theta) 
-     in :a     = ’PˆÊ‰ñ“]ƒxƒNƒgƒ‹ 
-        :theta = ‰ñ“]Špiƒ‰ƒWƒAƒ“j
+  /* ä»»æ„è»¸å›è»¢è¡Œåˆ— R(A,theta) 
+     in :a     = å˜ä½å›è»¢ãƒ™ã‚¯ãƒˆãƒ« 
+        :theta = å›è»¢è§’ï¼ˆãƒ©ã‚¸ã‚¢ãƒ³ï¼‰
         :cos   = cos(theta)
         :sin   = sin(theta)
-     out:R = ‰ñ“]s—ñ
-     Rodrigues' Rotation Formula ‚æ‚è */
+     out:R = å›è»¢è¡Œåˆ—
+     Rodrigues' Rotation Formula ã‚ˆã‚Š */
 var ang2rot=function(a, cos, sin){
   cos1 = 1-cos;
   return [
