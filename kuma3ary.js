@@ -345,8 +345,8 @@ Kuma3ary.prototype.expand=function(Y){
   /* 2-1-3-2-2-1 */           if(!Y.iszero() && Y.isfinite()){
   /*                            X[Y[0]]=ψ_{X_1}(Γ,X_3)となるΓ∈Tが一意に存在するならば、 */
   /*             */             var Gamma=X.expand(Y.expand(k0)).a[1];
-  /*                            X[Y]=   ψ_{X_1}(X_2       [ ψ_{P}(Q[0],Γ)],X_3)である。 */
-  /*             */             return newk(X_1, X_2.expand(newk(P.expand(k0), Q, Gamma)),X_3);
+  /*                            X[Y]=   ψ_{X_1}(X_2       [ ψ_{P}(Q        [0],Γ    )],X_3)である。 */
+  /*             */             return newk(X_1, X_2.expand(newk(P, Q.expand(k0), Gamma)),X_3);
   /*             */           }
   /* 2-1-3-2-2-2.             そうでないならば、 */
   /* 2-1-3-2-2-2 */           else{
