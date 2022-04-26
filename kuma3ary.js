@@ -204,7 +204,7 @@ Kuma3ary.lt=function(X,Y){
   /* 2-3.         もしY=Y_1+...+Y_{m'}を満たすY_1,...,Y_{m'}∈PT (2≦m'<∞)が存在するならば、 */
   /* 2-3     */   if(Y.isadd()){
   /*         */     var Y_1 = Y.a[0]; var Y_2 = Y.a[1]; var Y_3 = Y.a[2];
-  /* ??           X<Yは     X=Y_1  または X<Y_1と同値である。 */
+  /*                X<Yは     X=Y_1  または X<Y_1と同値である。 */
   /*         */     return eq(X,Y_1) ||  lt(X,Y_1);
   /*         */   }
   /*         */ }
@@ -330,7 +330,7 @@ Kuma3ary.prototype.expand=function(Y){
   /* 2-1-3-2-1-1.             もしY=$h (1≦h<∞)かつ X[Y[0]]=ψ_{X_1}(Γ,X_3)となるΓ∈Tが一意に存在するならば、*/
   /* 2-1-3-2-1-1 */           if(!Y.iszero() && Y.isfinite()){
   /*             */             var Gamma=X.expand(Y.expand(k0)).a[1];
-  /* ?????                    X[Y]=ψ_{X_1}(X_2[        ψ_{P       [ 0]}(Γ   ,  0)],X_3)である。 */
+  /*                               X[Y]=ψ_{X_1}(X_2[        ψ_{P       [ 0]}(Γ   ,  0)],X_3)である。 */
   /*             */             return newk(X_1, X_2.expand(newk(P.expand(k0), Gamma, k0)),X_3);
   /*             */           }
   /* 2-1-3-2-1-2.             そうでないならば */
@@ -345,7 +345,7 @@ Kuma3ary.prototype.expand=function(Y){
   /* 2-1-3-2-2-1 */           if(!Y.iszero() && Y.isfinite()){
   /*                            X[Y[0]]=ψ_{X_1}(Γ,X_3)となるΓ∈Tが一意に存在するならば、 */
   /*             */             var Gamma=X.expand(Y.expand(k0)).a[1];
-  /* ?????                 X[Y]=   ψ_{X_1}(X_2       [ ψ_{P}(Q[0],Γ)],X_3)である。 */
+  /*                            X[Y]=   ψ_{X_1}(X_2       [ ψ_{P}(Q[0],Γ)],X_3)である。 */
   /*             */             return newk(X_1, X_2.expand(newk(P.expand(k0), Q, Gamma)),X_3);
   /*             */           }
   /* 2-1-3-2-2-2.             そうでないならば、 */
@@ -364,7 +364,7 @@ Kuma3ary.prototype.expand=function(Y){
                         var k=Y.toint();
   /* 2-2-2.             もしY=$k (2≦k<∞)ならば、 */
   /* 2-2-2       */     if(2<=k && k!=-1)
-  /* ???               X[Y]=   ψ_{X_1}(X_2,X_3[        0])+
+  /*                      X[Y]=   ψ_{X_1}(X_2,X_3[        0])+
                               ...+ψ_{X_1}(X_2,X_3[        0]) (ψ_{X_1}(X_2,X_3[0])がk個)である。 */
                           return newk(X_1, X_2,X_3.expand(k0)).mul(k);
   /* 2-2-3.             そのいずれでもないならば、X[Y]=0である。 */
@@ -402,7 +402,7 @@ Kuma3ary.prototype.expand=function(Y){
   /* 2-4-2-2-1   */         if( 1<=h && h!=-1){
   /*                          X[Y[0]]=ψ_{X_1}(X_2,Γ)となるΓ∈Tが一意に存在するならば、 */
   /*             */           var Gamma=X.expand(Y.expand(k0)).a[2];
-  /* ???              ?   X[Y]=   ψ_{X_1}(X_2,X_3       [ ψ_{P}(Q       [ 0],Γ    )])である。 */
+  /*                      X[Y]=       ψ_{X_1}(X_2,X_3       [ ψ_{P}(Q       [ 0],Γ    )])である。 */
   /*             */           return newk(X_1, X_2,X_3.expand(newk(P, Q.expand(k0), Gamma)));
   /* 2-4-2-2-2.             そうでないならば、*/
   /* 2-4-2-2-2   */         }else{
